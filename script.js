@@ -288,11 +288,8 @@ const sectionObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       const id = entry.target.getAttribute('id');
       navLinks.forEach(link => {
-        if (link.getAttribute('href') === `#${id}`) {
-          link.classList.add('nav-active');
-        } else {
-          link.classList.remove('nav-active');
-        }
+        link.style.color = link.getAttribute('href') === `#${id}` ? 'var(--green-dark)' : '';
+        link.style.fontWeight = link.getAttribute('href') === `#${id}` ? '600' : '';
       });
     }
   });
