@@ -120,7 +120,15 @@ ul { list-style: none; }
   flex: 1;
 }
 .feature-icon {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(82, 183, 136, 0.12);
+  flex-shrink: 0;
+  color: #2D6A4F;
 }
 .feature-text h4 {
   font-size: 1.1rem;
@@ -1040,8 +1048,15 @@ ul { list-style: none; }
 }
 
 .premium-icon {
-  font-size: 1.3rem;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(82, 183, 136, 0.12);
+  flex-shrink: 0;
+  color: #2D6A4F;
 }
 
 .expertise-accordion {
@@ -2471,7 +2486,345 @@ footer {
   .profile-location {
     font-size: 0.8rem;
   }
-  #doctor-tabs {
-    padding: 0 0 60px;
+}
+
+/* =================================================================
+   OUR SPECIALISATION — Exact replica of reference image
+   ================================================================= */
+
+/* ── Section wrapper ── */
+.spec-section {
+  position: relative;
+  isolation: isolate;
+  background-image: url('image copy.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: local;
+  padding: 72px 0 80px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  z-index: 1;
+}
+/* Light overlay for card readability over botanical image */
+#specialisation.spec-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 247, 240, 0.4);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Wave divider between doctor section and specialisation ── */
+.section-wave-divider {
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  margin-bottom: -2px;
+  z-index: 5;
+  position: relative;
+}
+.section-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 50px;
+}
+
+/* ── Botanical SVG hidden — image bg already has it ── */
+.spec-botanical {
+  display: none;
+}
+
+/* ── Corner leaf hidden — image bg already has it ── */
+.spec-corner-leaf {
+  display: none;
+}
+
+/* ── Main layout: left heading + right grid ── */
+.spec-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── LEFT: Big heading ── */
+.spec-left {
+  padding-top: 16px;
+}
+.spec-main-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #1B4332;
+  line-height: 1;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 8px rgba(255,255,255,0.6);
+}
+.spec-our {
+  display: block;
+  font-size: 5rem;
+  letter-spacing: -0.01em;
+}
+.spec-word {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #1B4332;
+  line-height: 1.2;
+}
+
+/* Horizontal rule below title */
+.spec-title-rule {
+  width: 170px;
+  height: 2px;
+  background: linear-gradient(90deg, #1B4332 0%, rgba(27,67,50,0.1) 100%);
+  margin: 16px 0 20px;
+  border: none;
+}
+
+/* Leaf + dot chain decoration */
+.spec-title-deco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-left: 78px; /* align roughly under the 'S' of SPECIALISATION */
+  width: 20px;
+}
+.spec-title-deco svg {
+  width: 22px;
+  height: 22px;
+}
+.spec-title-deco .deco-dots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+}
+.spec-title-deco .deco-dots span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #52B788;
+  opacity: 0.7;
+}
+
+/* ── RIGHT: Grid ── */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+/* ── Cards — glassmorphism over botanical image background ── */
+.spec-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  padding: 20px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease,
+              background 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  box-shadow: 0 4px 20px rgba(45, 106, 79, 0.1);
+}
+/* Ripple glow on hover */
+.spec-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 0%, rgba(82,183,136,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.spec-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 20px 48px rgba(45, 106, 79, 0.18);
+  border-color: rgba(82, 183, 136, 0.55);
+}
+.spec-card:hover::after {
+  opacity: 1;
+}
+/* Highlighted card accent */
+.spec-card.spec-card--accent {
+  background: rgba(255, 255, 255, 0.90);
+  border-color: rgba(82, 183, 136, 0.5);
+  box-shadow: 0 4px 20px rgba(82, 183, 136, 0.12);
+}
+
+/* ── Card top row: icon + title ── */
+.spec-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* Icon wrapper — oval cream pill shape just like reference */
+.spec-icon-circle {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f4f7f0;
+  border: 1px solid rgba(82, 183, 136, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s ease, background 0.4s ease;
+}
+.spec-card:hover .spec-icon-circle {
+  transform: scale(1.08);
+  background: #eaf4ee;
+}
+.spec-icon-circle svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Title */
+.spec-card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1B4332;
+  line-height: 1.3;
+  padding-top: 2px;
+}
+
+/* Green separator line — full width, short, like reference */
+.spec-card-line {
+  width: 100%;
+  height: 1px;
+  background: rgba(82, 183, 136, 0.35);
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+.spec-card:hover .spec-card-line {
+  background: rgba(82, 183, 136, 0.7);
+}
+
+/* Description */
+.spec-card-desc {
+  font-size: 0.83rem;
+  line-height: 1.65;
+  color: #3d5248;
+  margin: 0;
+  flex: 1;
+}
+
+/* ── Bottom tagline ── */
+.spec-tagline {
+  position: relative;
+  z-index: 2;
+  margin-top: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.spec-tagline p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #1B4332;
+  letter-spacing: 0.025em;
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.7);
+}
+.spec-tagline-line {
+  height: 1px;
+  flex: 1;
+  max-width: 240px;
+  background: linear-gradient(90deg, transparent, rgba(82,183,136,0.45), transparent);
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger delay for cards */
+.spec-card:nth-child(1)  { transition-delay: 0.05s; }
+.spec-card:nth-child(2)  { transition-delay: 0.10s; }
+.spec-card:nth-child(3)  { transition-delay: 0.15s; }
+.spec-card:nth-child(4)  { transition-delay: 0.20s; }
+.spec-card:nth-child(5)  { transition-delay: 0.25s; }
+.spec-card:nth-child(6)  { transition-delay: 0.30s; }
+.spec-card:nth-child(7)  { transition-delay: 0.35s; }
+.spec-card:nth-child(8)  { transition-delay: 0.40s; }
+.spec-card:nth-child(9)  { transition-delay: 0.45s; }
+.spec-card:nth-child(10) { transition-delay: 0.50s; }
+.spec-card:nth-child(11) { transition-delay: 0.55s; }
+.spec-card:nth-child(12) { transition-delay: 0.60s; }
+
+/* ── Responsive ── */
+@media (max-width: 1280px) {
+  .spec-inner {
+    grid-template-columns: 220px 1fr;
+    gap: 36px;
+    padding: 0 32px;
   }
+  .spec-our  { font-size: 4rem; }
+  .spec-word { font-size: 1.7rem; }
+  .spec-grid { grid-template-columns: repeat(3, 1fr); }
+  .spec-botanical { width: 360px; height: 600px; left: -40px; }
+}
+
+@media (max-width: 992px) {
+  .spec-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 0 24px;
+  }
+  .spec-left { display: flex; flex-direction: column; align-items: center; }
+  .spec-title-rule { margin-left: auto; margin-right: auto; }
+  .spec-title-deco { margin-left: 0; }
+  .spec-grid { grid-template-columns: repeat(2, 1fr); }
+  .spec-botanical { opacity: 0.4; }
+}
+
+@media (max-width: 600px) {
+  .spec-section { padding: 48px 0 60px; }
+  .spec-our  { font-size: 3rem; }
+  .spec-word { font-size: 1.4rem; }
+  .spec-grid { grid-template-columns: 1fr; gap: 14px; }
+  .spec-tagline { flex-wrap: wrap; text-align: center; padding: 0 20px; }
+  .spec-tagline-line { display: none; }
+  .spec-tagline p { white-space: normal; }
+}
+
+/* ─── Spec-section: spec-content.png — clean botanical background ─── */
+#specialisation.spec-section {
+  background-image: url('spec-content.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-color: #f2f6ee !important;
+  isolation: isolate;
 }
