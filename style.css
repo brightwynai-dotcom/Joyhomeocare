@@ -752,7 +752,7 @@ ul { list-style: none; }
 /* ===== DOCTOR MODERN SECTION ===== */
 .doctor-modern-section {
   padding: 80px 0 0;
-  background: url('bg-doctor.png') center center / cover no-repeat fixed;
+  background: url('assets/images/bg-doctor.png') center center / cover no-repeat fixed;
   background-color: #FAF8F4;
   position: relative;
   overflow: hidden;
@@ -2496,7 +2496,7 @@ footer {
 .spec-section {
   position: relative;
   isolation: isolate;
-  background-image: url('image copy.png');
+  background-image: url('assets/images/image copy.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -2821,7 +2821,7 @@ footer {
 
 /* ─── Spec-section: spec-content.png — clean botanical background ─── */
 #specialisation.spec-section {
-  background-image: url('spec-content.png') !important;
+  background-image: url('assets/images/spec-content.png') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
