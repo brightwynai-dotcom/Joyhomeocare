@@ -1,53 +1,65 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Joy Homoeo Care | Dr. Joy Selin – Homeopathic Clinic in Chennai</title>
-  <meta name="description" content="Joy Homoeo Care is a trusted homeopathic clinic in Mandavelipakkam, Chennai. Dr. Joy Selin (BHMS) specialises in allergies, asthma, skin, kidney, gastric, migraine, PCOD and more. Book your appointment today." />
-  <meta name="keywords" content="homeopathic clinic Chennai, homoeopathy Mandavelipakkam, Dr Joy Selin, homeopathy doctor Chennai, allergy treatment Chennai, PCOD homeopathy" />
-  <link rel="stylesheet" href="style.css" />
+  <title>Joy Homoeo Care | Dr. Joy Selin – Homoeopathic Clinic in Chennai</title>
+  <meta name="description"
+    content="Joy Homoeo Care is a trusted homoeopathic clinic in Mandavelipakkam, Chennai. Dr. Joy Selin (BHMS) specialises in allergies, asthma, skin, kidney, gastric, migraine, PCOD and more. Book your appointment today." />
+  <meta name="keywords"
+    content="homoeopathic clinic Chennai, homoeopathy Mandavelipakkam, Dr Joy Selin, homoeopathy doctor Chennai, allergy treatment Chennai, PCOD homoeopathy" />
+  <link rel="stylesheet" href="style.css?v=8" />
   <!-- Favicon placeholder using emoji -->
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>" />
 </head>
-
-
 
 <body>
 
   <!-- ===== MOBILE NAV ===== -->
   <nav class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation">
     <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+    <a href="#hero" class="mobile-link">Home</a>
     <a href="#about" class="mobile-link">About</a>
-    <a href="#doctor" class="mobile-link">Our Doctor</a>
-    <a href="#why" class="mobile-link">Why Homeopathy</a>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#why" class="mobile-link">Why Choose Us</a>
+    <a href="#blog" class="mobile-link">Blog</a>
     <a href="#testimonials" class="mobile-link">Testimonials</a>
-    <a href="#contact" class="mobile-link">Contact</a>
+    <a href="#contact" class="mobile-link">Contact Us</a>
     <a href="#appointment" class="btn btn-primary" style="margin-top:8px">Book Appointment</a>
   </nav>
 
   <!-- ===== HEADER ===== -->
   <header id="header">
-    <div class="container">
-      <div class="nav-inner">
-        <a href="#hero" class="logo" aria-label="Joy Homoeo Care Home">
-          <span class="logo-name">🌿 Joy Homoeo Care</span>
-          <span class="logo-tagline">For Healthy and Happy Life</span>
-        </a>
-        <ul class="nav-links" role="list">
-          <li><a href="#about">About</a></li>
-          <li><a href="#doctor">Our Doctor</a></li>
-          <li><a href="#why">Why Homeopathy</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#appointment" class="btn btn-primary nav-cta">Book Appointment</a>
+    <!-- Row 1: Logo left | Phone + CTA + Hamburger right -->
+    <div class="top-bar">
+      <a href="#hero" class="logo" aria-label="Joy Homoeo Care Home">
+        <img src="logo_transparent.svg" alt="Joy Homoeo Care Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-name">Joy Homoeo Care</span>
+          <span class="logo-tagline">FOR HEALTHY AND HAPPY LIFE</span>
+        </div>
+      </a>
+      <div class="row1-right">
+        <a href="tel:+917395960233" class="top-bar-phone">📞 073959 60233</a>
+        <a href="#appointment" class="btn nav-cta">Book Appointment</a>
         <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
       </div>
+    </div>
+    <!-- Row 2: Nav links -->
+    <div class="bottom-bar">
+      <ul class="nav-links" role="list">
+        <li><a href="#hero" class="nav-active nav-bold">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#doctor">Our Doctor</a></li>
+        <li><a href="#services" class="nav-bold">Services</a></li>
+        <li><a href="#why">Why Homoeopathy</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
   </header>
 
@@ -55,30 +67,16 @@
   <section id="hero" aria-label="Hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
-    <div class="container hero-content">
-      <div class="hero-badge">🌿 &nbsp;Gentle ┬╖ Natural ┬╖ Effective</div>
-      <h1 class="hero-title"><span>Joy</span> Homoeo Care</h1>
-      <p class="hero-tagline">ΓÇö For Healthy and Happy Life ΓÇö</p>
-      <p class="hero-desc">
-        Experience the healing power of homeopathy with personalised care in the heart of Mandavelipakkam, Chennai. 
-        Trusted remedies for chronic and acute conditions ΓÇö safe for the whole family.
-      </p>
-      <div class="hero-btns">
-        <a href="#appointment" class="btn btn-gold" id="heroBookBtn">Book Appointment</a>
-        <a href="#doctor" class="btn btn-outline">Explore Expertise</a>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="hero-stat-num">1000+</span>
-          <span class="hero-stat-label">Happy Patients</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-num">12+</span>
-          <span class="hero-stat-label">Specialisations</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-num">100%</span>
-          <span class="hero-stat-label">Natural Treatment</span>
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Chennai's Trusted<br><span>Homoeopathic Clinic</span></h1>
+        <p class="hero-tagline">— Healing from Within, Naturally —</p>
+        <p class="hero-desc">
+          Experience the healing power of homoeopathy with personalised care in the heart of Mandaveli, Chennai. Trusted
+          remedies for chronic and acute conditions — safe for the whole family.
+        </p>
+        <div class="hero-btns">
+          <a href="#services" class="hero-btn" id="heroExploreBtn">Explore Now →</a>
         </div>
       </div>
     </div>
@@ -89,270 +87,369 @@
   </section>
 
   <!-- ===== ABOUT ===== -->
-  <section id="about" aria-labelledby="about-title">
+  <section id="about" class="about-section" aria-labelledby="about-title">
     <div class="container">
-      <div class="about-grid">
-        <div class="about-image-wrap reveal-left">
-          <div class="about-leaf" aria-hidden="true">🌿</div>
-          <div class="about-image-card">
-            <img src="image.png" alt="Homeopathic medicines and natural remedies at Joy Homoeo Care" loading="lazy" />
+      <div class="about-top-grid">
+        <!-- Left Column -->
+        <div class="about-content reveal-left">
+          <div class="about-label">
+            <span>ABOUT US</span>
           </div>
-          <div class="about-leaf-badge">
-            <div class="badge-num">BHMS</div>
-            <div class="badge-text">Qualified Doctor</div>
+          <div class="about-accent-line"></div>
+          <h2 class="about-heading" id="about-title">
+            <span class="text-green">Healing</span> <span class="text-gold">Naturally.</span><br>
+            <span class="text-green">Caring Personally.</span>
+          </h2>
+          <div class="about-divider"></div>
+          <p class="about-desc">
+            At Joy Homoeo Care, we combine the timeless wisdom of homeopathy with a patient-first approach. Our
+            treatments are gentle, effective, and tailored to support your body's natural ability to heal and thrive.
+          </p>
+        </div>
+
+        <!-- Right Column -->
+        <div class="about-image-wrapper reveal-right">
+          <div class="about-image-container">
+            <img src="about_image.png" alt="Homoeopathic medicines and natural remedies at Joy Homoeo Care"
+              loading="lazy" />
           </div>
         </div>
-        <div class="about-text reveal-right">
-          <span class="section-label">About Us</span>
-          <h2 class="section-title" id="about-title">Healing From Within,<br>Naturally</h2>
-          <p class="section-subtitle">
-            Joy Homoeo Care was founded with a simple belief ΓÇö the human body holds the power to heal itself when guided with the right natural medicine. 
-            Located in Mandavelipakkam, Chennai, we offer compassionate, personalised homeopathic treatment for patients of all ages.
+      </div>
+
+      <!-- Bottom Section: 4 Feature Cards in a row + Mission Block -->
+      <div class="about-bottom-layout">
+        <div class="feature-cards-row reveal">
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4a6b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3A2 2 0 0 1 12 4v5a5 5 0 0 1-10 0V4a2 2 0 0 1 2.8-1.7Z"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+            </div>
+            <h4>Expert Care</h4>
+            <p>Experienced and dedicated homeopathic professionals committed to you.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#6B8A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            </div>
+            <h4>Natural &amp; Safe</h4>
+            <p>Gentle, effective remedies with no harmful side effects.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#C8942D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+            </div>
+            <h4>Personalized Treatment</h4>
+            <p>Care plans tailored to your unique symptoms, needs, and lifestyle.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#e0aa3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
+            <h4>Patient First</h4>
+            <p>Compassionate care at every step of your wellness journey.</p>
+          </div>
+        </div>
+
+        <!-- Mission Block -->
+        <div class="mission-block reveal-right">
+          <span class="mission-label">OUR MISSION</span>
+          <h3 class="mission-heading">We're Here for You<br>and Your Family</h3>
+          <p class="mission-text">
+            Our mission is to provide exceptional homeopathic care in a warm and welcoming environment. Your health and
+            well-being are at the heart of everything we do.
           </p>
-          <div class="about-feature">
-            <div class="about-feature-icon" aria-hidden="true">🌱</div>
-            <div class="about-feature-text">
-              <h4>Root-Cause Treatment</h4>
-              <p>We treat the underlying cause, not just the symptoms, for long-lasting relief.</p>
-            </div>
-          </div>
-          <div class="about-feature">
-            <div class="about-feature-icon" aria-hidden="true">👪</div>
-            <div class="about-feature-text">
-              <h4>Care for the Whole Family</h4>
-              <p>From newborns to the elderly ΓÇö safe, gentle treatments for every stage of life.</p>
-            </div>
-          </div>
-          <div class="about-feature">
-            <div class="about-feature-icon" aria-hidden="true">🌿</div>
-            <div class="about-feature-text">
-              <h4>100% Natural &amp; No Side Effects</h4>
-              <p>All remedies are derived from natural sources ΓÇö completely safe with no harmful side effects.</p>
-            </div>
-          </div>
-          <a href="#appointment" class="btn btn-primary" style="margin-top:8px; width:fit-content">Book a Consultation →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== DOCTOR + AREA OF EXPERTISE (ONE SECTION) ===== -->
-  <section id="doctor" aria-labelledby="doctor-title" class="doctor-modern-section">
+  <!-- ===== DOCTOR ===== -->
+  <section id="doctor" aria-labelledby="doctor-title">
     <div class="container">
-
-      <!-- Doctor Photo + Bio -->
-      <div class="doctor-modern-split">
-        <div class="doctor-modern-image-col reveal-left">
-          <div class="doctor-image-wrapper">
-            <img src="doc.jpeg" alt="Dr. Joy" loading="lazy" />
+      <div class="doctor-grid">
+        <div class="doctor-photo-wrap reveal-left">
+          <div class="doctor-photo-ring">
+            <div class="doctor-photo">
+              <img src="doctor_profile.png" alt="Dr. Joy Selin, BHMS – Homoeopathic Doctor at Joy Homoeo Care, Chennai"
+                loading="lazy" />
+            </div>
           </div>
+          <div class="doctor-qual-badge">BHMS Certified</div>
         </div>
-        <div class="doctor-modern-content-col reveal-right">
-          <span class="section-label" style="margin-bottom: 16px;">Meet Your <span style="color: #D1B8A4;">Doctor</span></span>
+        <div class="doctor-text reveal-right">
+          <span class="section-label">Meet Your Doctor</span>
           <h2 class="section-title" id="doctor-title">Dr. Joy Selin</h2>
-          <div class="doctor-degree-badge">
-            BHMS, M.Sc (Psy), MD(Hom)
-          </div>
-          <p class="doctor-bio">Dr. Joy is a highly dedicated homeopathic physician with extensive clinical experience in managing a wide spectrum of acute and chronic conditions.</p>
-          <p class="doctor-bio">She deeply evaluates each patient's comprehensive health history, lifestyle factors, and individual constitution to formulate highly personalized treatment protocols.</p>
-          <p class="doctor-bio">Leveraging profound expertise in classical homeopathy, Dr. Joy has successfully guided numerous patients across Chennai toward sustainable, long-term health, offering definite relief in cases where conventional approaches provided only symptomatic management.</p>
-        </div>
-      </div>
-
-      <div class="bio-divider"></div>
-
-      <div class="doctor-features-row reveal-up">
-        <div class="feature-item">
-          <div class="feature-icon">👥</div>
-          <div class="feature-text">
-            <h4><span class="count-num" data-target="3000" data-suffix="+">0</span></h4>
-            <p>Patients Treated</p>
-          </div>
-        </div>
-        <div class="feature-divider"></div>
-        <div class="feature-item">
-          <div class="feature-icon">🩺</div>
-          <div class="feature-text">
-            <h4><span class="count-num" data-target="10" data-suffix="+">0</span></h4>
-            <p>Years Experience</p>
-          </div>
-        </div>
-        <div class="feature-divider"></div>
-        <div class="feature-item">
-          <div class="feature-icon">🌿</div>
-          <div class="feature-text">
-            <h4>Holistic Healing</h4>
-            <p>Root cause focus</p>
-          </div>
-        </div>
-        <div class="feature-divider"></div>
-        <div class="feature-item">
-          <div class="feature-icon">🛡️</div>
-          <div class="feature-text">
-            <h4>Safe &amp; Natural</h4>
-            <p>Side-effect free care</p>
-          </div>
-        </div>
-      </div>
-
-    <!-- Divider before Area of Expertise -->
-    <div class="bio-divider"></div>
-
-    </div>
-
-
-    <!-- Area of Expertise — medicine bg applied to this inner block -->
-    <div class="expertise-bg-block">
-      <div class="container">
-        <div class="expertise-accordion-section" style="margin-top: 0;">
-          <div class="expertise-label-wrapper">
-            <div class="expertise-badge">
-              <span class="badge-text">AREA OF EXPERTISE</span>
-            </div>
-            <div class="badge-line-decoration"></div>
-          </div>
-
-          <div class="expertise-accordion" id="expertiseAccordion">
-
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <div class="acc-left">
-                  <div class="premium-icon">🫁</div>
-                  <h4 class="premium-title">Respiratory Health</h4>
-                </div>
-                <span class="acc-arrow">&#10095;</span>
-              </div>
-              <div class="accordion-body">
-                <p>Effective homeopathic remedies for asthma, allergic rhinitis, bronchitis, sinusitis, and chronic coughs — treating the root cause for lasting relief without side effects.</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <div class="acc-left">
-                  <div class="premium-icon">✨</div>
-                  <h4 class="premium-title">Skin Wellness</h4>
-                </div>
-                <span class="acc-arrow">&#10095;</span>
-              </div>
-              <div class="accordion-body">
-                <p>Holistic healing for eczema, psoriasis, acne, urticaria, vitiligo, and other stubborn skin conditions — treating from the inside out with safe, natural remedies.</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <div class="acc-left">
-                  <div class="premium-icon">🍃</div>
-                  <h4 class="premium-title">Digestive Wellness</h4>
-                </div>
-                <span class="acc-arrow">&#10095;</span>
-              </div>
-              <div class="accordion-body">
-                <p>Relief from acidity, IBS, constipation, indigestion, bloating, and gastric ulcers through targeted constitutional remedies tailored to each patient's needs.</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <div class="acc-left">
-                  <div class="premium-icon">👶</div>
-                  <h4 class="premium-title">Child Wellness</h4>
-                </div>
-                <span class="acc-arrow">&#10095;</span>
-              </div>
-              <div class="accordion-body">
-                <p>Gentle, safe, and effective care for children's common ailments — recurring colds, tonsillitis, immunity issues, growth concerns, and developmental challenges.</p>
-              </div>
-            </div>
-
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <div class="acc-left">
-                  <div class="premium-icon">🌸</div>
-                  <h4 class="premium-title">Women's Wellness</h4>
-                </div>
-                <span class="acc-arrow">&#10095;</span>
-              </div>
-              <div class="accordion-body">
-                <p>Natural hormone-balancing treatment for PCOD, uterine fibroids, irregular periods, leucorrhoea, menopausal symptoms, and other women's health concerns.</p>
-              </div>
-            </div>
-
+          <p class="doctor-name-sub">Bachelor of Homoeopathic Medicine &amp; Surgery (BHMS)</p>
+          <p class="doctor-bio">
+            Dr. Joy Selin is a dedicated and compassionate homoeopathic physician with years of clinical experience
+            treating a wide range of acute and chronic conditions. Committed to holistic healing, Dr. Selin takes
+            time to understand each patient's complete health history, lifestyle, and individual needs before
+            crafting a personalised treatment plan.
+          </p>
+          <p class="doctor-bio">
+            With a gentle approach and deep knowledge of classical homoeopathy, Dr. Selin has helped hundreds
+            of patients in Chennai achieve lasting relief from conditions where conventional medicine offered
+            only symptomatic control.
+          </p>
+          <div class="doctor-tags">
+            <span class="doctor-tag">🏆 BHMS Certified</span>
+            <span class="doctor-tag">🔬 Classical Homoeopathy</span>
+            <span class="doctor-tag">👶 Paediatric Care</span>
+            <span class="doctor-tag">🌸 Women's Health</span>
+            <span class="doctor-tag">🫁 Respiratory Specialist</span>
           </div>
         </div>
       </div>
     </div>
-
   </section>
 
-<!-- ===== WHY HOMEOPATHY ===== -->
-  <section id="why" aria-labelledby="why-title">
+  <!-- ===== SERVICES ===== -->
+  <section id="services" aria-labelledby="services-title">
     <div class="container">
-      <div class="why-grid">
-        <div class="reveal-left">
-          <span class="section-label">The Homeopathic Difference</span>
-          <h2 class="section-title" id="why-title">Why Choose Homeopathy?</h2>
-          <div class="why-list">
-            <div class="why-item">
-              <div class="why-num" aria-hidden="true">01</div>
-              <div class="why-item-text">
-                <h4>Treats the Whole Person</h4>
-                <p>Homeopathy considers your physical, mental, and emotional state to find a remedy tailored specifically to you ΓÇö not a generic prescription.</p>
-              </div>
-            </div>
-            <div class="why-item">
-              <div class="why-num" aria-hidden="true">02</div>
-              <div class="why-item-text">
-                <h4>No Harmful Side Effects</h4>
-                <p>All remedies are prepared from natural substances and are safe for infants, pregnant women, and the elderly.</p>
-              </div>
-            </div>
-            <div class="why-item">
-              <div class="why-num" aria-hidden="true">03</div>
-              <div class="why-item-text">
-                <h4>Long-Lasting Results</h4>
-                <p>By addressing root causes rather than masking symptoms, homeopathy delivers results that last ΓÇö reducing the need for repeat medication.</p>
-              </div>
-            </div>
-            <div class="why-item">
-              <div class="why-num" aria-hidden="true">04</div>
-              <div class="why-item-text">
-                <h4>Effective for Chronic Conditions</h4>
-                <p>Homeopathy excels where conventional medicine struggles ΓÇö chronic, recurring, and complex multi-system conditions.</p>
-              </div>
-            </div>
-          </div>
+      <div class="services-header reveal">
+        <span class="section-label">What We Treat</span>
+        <h2 class="section-title" id="services-title">Our Specialisations</h2>
+        <p class="section-subtitle">
+          We offer homoeopathic treatment for a broad spectrum of conditions — providing safe, effective,
+          and natural relief with long-lasting results.
+        </p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🤧</div>
+          <h3>Allergic Rhinitis &amp; Sinusitis</h3>
+          <p>Effective constitutional remedies to reduce nasal inflammation, sneezing, and chronic sinus congestion
+            without dependency on antihistamines.</p>
         </div>
-        <div class="why-image-side reveal-right">
-          <p class="why-image-title">A Healing System Trusted for 200+ Years</p>
-          <p class="why-quote">
-            "Homeopathy cures a greater percentage of cases than any other method of treatment. 
-            Homeopathy is the latest and refined method of treating patients economically and non-violently."
-            <br><br><strong>ΓÇö Mahatma Gandhi</strong>
-          </p>
-          <div class="why-pills">
-            <span class="why-pill">≡ƒî▒ Derived from Nature</span>
-            <span class="why-pill">✅ Non-Toxic</span>
-            <span class="why-pill">🌸 Individualised</span>
-            <span class="why-pill">🚫 No Drug Dependency</span>
-            <span class="why-pill">👶 Safe for All Ages</span>
-            <span class="why-pill">📘 Evidence-Based</span>
-            <span class="why-pill">✨ Holistic Healing</span>
-            <span class="why-pill">💰 Affordable</span>
-          </div>
-          <a href="#appointment" class="btn btn-primary" style="width:fit-content; margin-top:8px">Start Your Healing Journey →</a>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🫁</div>
+          <h3>Asthma</h3>
+          <p>Holistic treatment that addresses the root triggers of asthma, reducing the frequency and severity of
+            attacks and improving lung function over time.</p>
         </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🪨</div>
+          <h3>Renal &amp; Gall Bladder Calculi</h3>
+          <p>Proven homoeopathic remedies to aid in the dissolution and natural expulsion of kidney and gall bladder
+            stones, avoiding surgery where possible.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🫘</div>
+          <h3>Kidney Complaints</h3>
+          <p>Supportive treatment for chronic UTI, early-stage kidney disease, and nephritis — helping restore optimal
+            kidney function naturally.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🍃</div>
+          <h3>Gastric Complaints</h3>
+          <p>Relief from acidity, IBS, bloating, constipation, and gastric ulcers through targeted constitutional
+            homoeopathic remedies.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">💊</div>
+          <h3>Hemorrhoids (Piles)</h3>
+          <p>Non-surgical homoeopathic management of internal and external piles — reducing pain, bleeding, and
+            discomfort safely and effectively.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🦠</div>
+          <h3>Urinary Tract Infection</h3>
+          <p>Fast, effective treatment for acute and recurrent UTIs using natural remedies that eliminate infection
+            without antibiotic resistance.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🧠</div>
+          <h3>Migraine Headache</h3>
+          <p>Constitutional treatment to reduce the frequency, duration, and intensity of migraines by targeting
+            individual triggers and patterns.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">✨</div>
+          <h3>Skin Complaints</h3>
+          <p>Healing Eczema, Psoriasis, Urticaria, Acne, Vitiligo, and other stubborn skin conditions from the
+            inside-out with homoeopathic care.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🌸</div>
+          <h3>PCOD, Fibroids &amp; Menstrual Complaints</h3>
+          <p>Gentle, hormone-balancing homoeopathic treatment for PCOD, uterine fibroids, irregular periods, and painful
+            menstruation.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">👶</div>
+          <h3>Children's Complaints</h3>
+          <p>Safe and gentle care for children's health issues including recurring colds, tonsillitis, bedwetting,
+            behavioural concerns, and growth-related problems.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">🦋</div>
+          <h3>Thyroid Disorders</h3>
+          <p>Balancing thyroid function naturally through individualised constitutional remedies for both hypothyroidism
+            and hyperthyroidism.</p>
+        </div>
+
       </div>
     </div>
+  </section>
+
+  <!-- ===== WHY HOMOEOPATHY ===== -->
+  <section id="why" class="why-section" aria-labelledby="why-title">
+
+    <!-- Section Header -->
+    <div class="why-header">
+      <p class="why-eyebrow">
+        <span class="why-eyebrow-leaf" aria-hidden="true">🌿</span>
+        <span class="why-eyebrow-line"></span>
+        WHY CHOOSE
+        <span class="why-eyebrow-line"></span>
+        <span class="why-eyebrow-leaf" aria-hidden="true">🌿</span>
+      </p>
+      <h2 class="why-main-title" id="why-title">HOMOEOPATHY</h2>
+      <div class="why-leaf-divider" aria-hidden="true">
+        <span class="why-eyebrow-line"></span>
+        <span class="why-eyebrow-leaf">🌿</span>
+        <span class="why-eyebrow-line"></span>
+      </div>
+      <p class="why-subtitle">A gentle, natural and holistic system of healing that<br>treats the root cause and
+        restores long-term wellness.</p>
+    </div>
+
+    <!-- Main Body: Left Image + Right Cards -->
+    <div class="container">
+      <div class="why-body">
+
+        <!-- Left: Botanical Image -->
+        <div class="why-body-image">
+          <img src="homo.png" alt="Homoeopathy mortar, pestle and medicine bottles with flowers" loading="lazy" />
+        </div>
+
+        <!-- Right: 4×2 Cards Grid -->
+        <div class="why-cards-grid">
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 6c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14S27.7 6 20 6zm0 2c6.6 0 12 5.4 12 12S26.6 32 20 32 8 26.6 8 20 13.4 8 20 8zm-4 7v2h8v-2h-8zm0 4v2h8v-2h-8zm-3 6l3-3 2 2 4-5 2 2-6 7-5-3z"
+                  fill="#3D7A4A" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">Natural &amp; Safe</h4>
+            <p class="why-card-desc">Uses natural substances, safe for all age groups.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="14" r="5" stroke="#3D7A4A" stroke-width="1.8" />
+                <path d="M11 32c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#3D7A4A" stroke-width="1.8"
+                  stroke-linecap="round" />
+                <path d="M20 25l-2 3 2 2 2-2-2-3z" fill="#3D7A4A" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">Holistic Healing</h4>
+            <p class="why-card-desc">Treats the root cause, not just the symptoms.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 7L9 12v10c0 6.6 4.7 12.8 11 14.3C26.3 34.8 31 28.6 31 22V12L20 7z" stroke="#3D7A4A"
+                  stroke-width="1.8" />
+                <path d="M16 20l3 3 6-6" stroke="#3D7A4A" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">No Side Effects</h4>
+            <p class="why-card-desc">Gentle on the body with no harmful side effects.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 8c0 0-8 6-8 14a8 8 0 0016 0C28 14 20 8 20 8z" stroke="#3D7A4A" stroke-width="1.8" />
+                <path d="M20 18v8M16 22h8" stroke="#3D7A4A" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">Strengthens Immunity</h4>
+            <p class="why-card-desc">Helps boost natural immunity and overall resistance.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="13" r="5" stroke="#3D7A4A" stroke-width="1.8" />
+                <path d="M12 31v-2a8 8 0 0116 0v2" stroke="#3D7A4A" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M24 24l3 3" stroke="#3D7A4A" stroke-width="1.8" stroke-linecap="round" />
+                <circle cx="27" cy="27" r="3" stroke="#3D7A4A" stroke-width="1.5" />
+                <path d="M25.5 27l1 1 2-2" stroke="#3D7A4A" stroke-width="1.3" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">Personalized Care</h4>
+            <p class="why-card-desc">Treatment is tailored to each individual's unique condition.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 32s-10-6-10-14a10 10 0 0120 0c0 8-10 14-10 14z" stroke="#3D7A4A" stroke-width="1.8" />
+                <path d="M20 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" fill="#3D7A4A" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">Long-Term Relief</h4>
+            <p class="why-card-desc">Provides lasting relief and helps prevent recurrence.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 10h8v4l2 14H14L16 14v-4z" stroke="#3D7A4A" stroke-width="1.8" stroke-linejoin="round" />
+                <path d="M14 17h12" stroke="#3D7A4A" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M17 22l2 4M21 22l2 4" stroke="#3D7A4A" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">No Harmful Chemicals</h4>
+            <p class="why-card-desc">Free from toxins, chemicals and suppressive drugs.</p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="11" r="3" stroke="#3D7A4A" stroke-width="1.8" />
+                <path d="M15 20c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="#3D7A4A" stroke-width="1.8"
+                  stroke-linecap="round" />
+                <path d="M14 25l6 5 6-5M14 30l6 2 6-2" stroke="#3D7A4A" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h4 class="why-card-title">Mind-Body Balance</h4>
+            <p class="why-card-desc">Supports emotional well-being and mental balance.</p>
+          </div>
+
+        </div><!-- /why-cards-grid -->
+      </div><!-- /why-body -->
+
+    </div><!-- /container -->
   </section>
 
   <!-- ===== TESTIMONIALS ===== -->
   <section id="testimonials" aria-labelledby="testimonials-title">
     <div class="container">
       <div class="testimonials-header reveal">
-        <span class="section-label">Patient Stories</span>
-        <h2 class="section-title" id="testimonials-title">What Our Patients Say</h2>
+        <span class="section-label">Success Stories</span>
+        <h2 class="section-title" id="testimonials-title">Our Success Stories</h2>
         <p class="section-subtitle">Real stories from real patients who found healing at Joy Homoeo Care.</p>
       </div>
       <div class="testimonials-track-wrap">
@@ -360,7 +457,9 @@
 
           <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-            <p class="testimonial-text">"I had been suffering from chronic sinusitis for over 5 years and tried every allopathic medication. Within 3 months of treatment with Dr. Joy Selin, my symptoms have reduced by almost 80%. I can breathe freely again!"</p>
+            <p class="testimonial-text">"I had been suffering from chronic sinusitis for over 5 years and tried every
+              allopathic medication. Within 3 months of treatment with Dr. Joy Selin, my symptoms have reduced by almost
+              80%. I can breathe freely again!"</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar" aria-hidden="true">R</div>
               <div>
@@ -372,7 +471,9 @@
 
           <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-            <p class="testimonial-text">"My 8-year-old son had recurring tonsillitis almost every month. After homeopathic treatment, he hasn't had a single episode in 6 months! Dr. Selin is so patient and gentle with children."</p>
+            <p class="testimonial-text">"My 8-year-old son had recurring tonsillitis almost every month. After
+              homoeopathic treatment, he hasn't had a single episode in 6 months! Dr. Selin is so patient and gentle
+              with children."</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar" aria-hidden="true">P</div>
               <div>
@@ -384,7 +485,9 @@
 
           <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-            <p class="testimonial-text">"I was diagnosed with PCOD and had very irregular periods for years. Dr. Joy Selin's treatment has completely regulated my cycle in just 4 months. I highly recommend this clinic to all women."</p>
+            <p class="testimonial-text">"I was diagnosed with PCOD and had very irregular periods for years. Dr. Joy
+              Selin's treatment has completely regulated my cycle in just 4 months. I highly recommend this clinic to
+              all women."</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar" aria-hidden="true">A</div>
               <div>
@@ -396,7 +499,9 @@
 
           <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-            <p class="testimonial-text">"My kidney stone (8mm) was supposed to be operated on. After 6 weeks of homeopathic treatment, it passed on its own! The doctor is extremely knowledgeable. This clinic is a blessing."</p>
+            <p class="testimonial-text">"My kidney stone (8mm) was supposed to be operated on. After 6 weeks of
+              homoeopathic treatment, it passed on its own! The doctor is extremely knowledgeable. This clinic is a
+              blessing."</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar" aria-hidden="true">V</div>
               <div>
@@ -408,7 +513,9 @@
 
           <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-            <p class="testimonial-text">"My eczema was so severe I couldn't wear normal clothes. After starting treatment here, my skin has cleared up beautifully. The doctor takes so much care to understand your issue. Best homoeo clinic in Chennai!"</p>
+            <p class="testimonial-text">"My eczema was so severe I couldn't wear normal clothes. After starting
+              treatment here, my skin has cleared up beautifully. The doctor takes so much care to understand your
+              issue. Best homoeo clinic in Chennai!"</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar" aria-hidden="true">S</div>
               <div>
@@ -420,7 +527,9 @@
 
           <div class="testimonial-card">
             <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-            <p class="testimonial-text">"I suffered from severe migraines every week. After 2 months of treatment, my headaches are almost gone. I am off painkillers completely. Thank you Dr. Joy Selin for giving me my life back!"</p>
+            <p class="testimonial-text">"I suffered from severe migraines every week. After 2 months of treatment, my
+              headaches are almost gone. I am off painkillers completely. Thank you Dr. Joy Selin for giving me my life
+              back!"</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar" aria-hidden="true">K</div>
               <div>
@@ -447,26 +556,33 @@
         <div class="appointment-info reveal-left">
           <span class="section-label">Get in Touch</span>
           <h2 class="section-title" id="appointment-title">Book Your Appointment</h2>
-          <p>Take the first step towards natural healing. Fill the form and we will confirm your appointment at Joy Homoeo Care at the earliest.</p>
+          <p>Take the first step towards natural healing. Fill the form and we will confirm your appointment at Joy
+            Homoeo Care at the earliest.</p>
           <div class="appointment-contacts">
             <div class="appt-contact-item">
               <div class="appt-contact-icon" aria-hidden="true">📞</div>
               <div>
-                <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">Call Us</div>
+                <div
+                  style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">
+                  Call Us</div>
                 <a href="tel:+917395960233" style="color:rgba(255,255,255,0.9);font-weight:600;">073959 60233</a>
               </div>
             </div>
             <div class="appt-contact-item">
               <div class="appt-contact-icon" aria-hidden="true">📍</div>
               <div>
-                <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">Location</div>
+                <div
+                  style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">
+                  Location</div>
                 <span>Old No 5/1, New No 2, 1, 2nd Loop St,<br>Mandavelipakkam, Chennai – 600028</span>
               </div>
             </div>
             <div class="appt-contact-item">
-              <div class="appt-contact-icon" aria-hidden="true">⏰</div>
+              <div class="appt-contact-icon" aria-hidden="true">🕐</div>
               <div>
-                <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">Clinic Hours</div>
+                <div
+                  style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">
+                  Clinic Hours</div>
                 <span>Mon – Sat: 9:00 AM – 1:00 PM &amp; 5:00 PM – 8:00 PM<br>Sunday: By appointment only</span>
               </div>
             </div>
@@ -482,14 +598,15 @@
               </div>
               <div class="form-group" id="fg-phone">
                 <label for="patientPhone">Phone Number *</label>
-                <input type="tel" id="patientPhone" name="phone" placeholder="10-digit mobile number" autocomplete="tel" />
+                <input type="tel" id="patientPhone" name="phone" placeholder="10-digit mobile number"
+                  autocomplete="tel" />
                 <span class="form-error-msg">Enter a valid 10-digit number.</span>
               </div>
             </div>
             <div class="form-group" id="fg-condition">
               <label for="patientCondition">Condition / Concern *</label>
               <select id="patientCondition" name="condition">
-                <option value="">ΓÇö Select your primary concern ΓÇö</option>
+                <option value="">— Select your primary concern —</option>
                 <option>Allergic Rhinitis &amp; Sinusitis</option>
                 <option>Asthma</option>
                 <option>Renal / Gall Bladder Calculi</option>
@@ -515,7 +632,7 @@
               <div class="form-group">
                 <label for="preferredTime">Preferred Time</label>
                 <select id="preferredTime" name="time">
-                  <option value="">ΓÇö Select time slot ΓÇö</option>
+                  <option value="">— Select time slot —</option>
                   <option>Morning: 9:00 AM – 1:00 PM</option>
                   <option>Evening: 5:00 PM – 8:00 PM</option>
                 </select>
@@ -523,10 +640,11 @@
             </div>
             <div class="form-group">
               <label for="patientMessage">Additional Notes</label>
-              <textarea id="patientMessage" name="message" placeholder="Briefly describe your symptoms or any previous treatments..."></textarea>
+              <textarea id="patientMessage" name="message"
+                placeholder="Briefly describe your symptoms or any previous treatments..."></textarea>
             </div>
             <button type="submit" class="btn btn-gold form-submit" id="submitBtn">
-              ✓ &nbsp;Confirm Appointment Request
+              ✅ &nbsp;Confirm Appointment Request
             </button>
           </form>
         </div>
@@ -542,7 +660,8 @@
           <div>
             <span class="section-label">Find Us</span>
             <h2 class="section-title" id="contact-title">Visit Our Clinic</h2>
-            <p class="contact-desc">We are conveniently located in Mandavelipakkam, Chennai. Walk in or call ahead to ensure your slot.</p>
+            <p class="contact-desc">We are conveniently located in Mandavelipakkam, Chennai. Walk in or call ahead to
+              ensure your slot.</p>
           </div>
           <div class="contact-item">
             <div class="contact-item-icon" aria-hidden="true">📍</div>
@@ -565,29 +684,27 @@
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-item-icon" aria-hidden="true">⏰</div>
+            <div class="contact-item-icon" aria-hidden="true">🕐</div>
             <div>
               <div class="contact-item-label">Clinic Hours</div>
               <div class="contact-item-value">
                 <div class="hours-grid">
                   <div class="hours-row"><span>Mon – Fri</span><span style="font-weight:600">9 AM – 8 PM</span></div>
                   <div class="hours-row"><span>Saturday</span><span style="font-weight:600">9 AM – 8 PM</span></div>
-                  <div class="hours-row" style="grid-column:1/-1"><span>Sunday</span><span style="font-weight:600">By Appointment</span></div>
+                  <div class="hours-row" style="grid-column:1/-1"><span>Sunday</span><span style="font-weight:600">By
+                      Appointment</span></div>
                 </div>
                 <p style="font-size:0.8rem;color:var(--text-light);margin-top:8px;">Break: 1:00 PM – 5:00 PM daily</p>
               </div>
             </div>
           </div>
-          <a href="tel:+917395960233" class="btn btn-primary" style="width:fit-content">Call Now</a>
+          <a href="tel:+917395960233" class="btn btn-primary" style="width:fit-content">📞 Call Now</a>
         </div>
         <div class="map-wrap reveal-right">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.0635!2d80.2518!3d13.0252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267e29e91e38b%3A0x5c00b4d36a!2sMandavelipakkam%2C%20Chennai%2C%20Tamil%20Nadu%20600028!5e0!3m2!1sen!2sin!4v1"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Joy Homoeo Care location map – Mandavelipakkam, Chennai"
-          ></iframe>
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Joy Homoeo Care location map – Mandavelipakkam, Chennai"></iframe>
         </div>
       </div>
     </div>
@@ -599,18 +716,23 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="logo">
-            <span class="logo-name">🌿 Joy Homoeo Care</span>
-            <span class="logo-tagline">For Healthy and Happy Life</span>
+            <img src="logo_transparent.svg" alt="Joy Homoeo Care Logo" class="logo-img" />
+            <div class="logo-text">
+              <span class="logo-name">Joy Homoeo Care</span>
+              <span class="logo-tagline">For Healthy and Happy Life</span>
+            </div>
           </div>
-          <p>A trusted homeopathic clinic in Mandavelipakkam, Chennai, offering personalised, natural healing for the whole family under the expert care of Dr. Joy Selin (BHMS).</p>
+          <p>A trusted homoeopathic clinic in Mandavelipakkam, Chennai, offering personalised, natural healing for the
+            whole family under the expert care of Dr. Joy Selin (BHMS).</p>
         </div>
         <div>
           <h3 class="footer-heading">Quick Links</h3>
           <ul class="footer-links" role="list">
             <li><a href="#about">About Us</a></li>
             <li><a href="#doctor">Our Doctor</a></li>
-              <li><a href="#why">Why Homeopathy</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#why">Why Homoeopathy</a></li>
+            <li><a href="#testimonials">Success Stories</a></li>
             <li><a href="#appointment">Book Appointment</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -627,7 +749,7 @@
               <a href="tel:+917395960233" style="color:rgba(255,255,255,0.65)">073959 60233</a>
             </div>
             <div class="footer-contact-item">
-              <span>⏰</span>
+              <span>🕐</span>
               <span>Mon–Sat: 9 AM–1 PM &amp; 5–8 PM</span>
             </div>
           </div>
@@ -635,9 +757,9 @@
       </div>
       <hr class="footer-divider" />
       <div class="footer-bottom">
-        <span>┬⌐ 2026 Joy Homoeo Care. All rights reserved.</span>
+        <span>© 2026 Joy Homoeo Care. All rights reserved.</span>
         <div class="footer-social" aria-label="Social media">
-          <a href="#" aria-label="Facebook">≡¥æô</a>
+          <a href="#" aria-label="Facebook">𝑓</a>
           <a href="#" aria-label="Instagram">📷</a>
           <a href="#" aria-label="WhatsApp">💬</a>
         </div>
@@ -650,7 +772,7 @@
 
   <!-- Toast Notification -->
   <div class="toast" id="toast" role="alert" aria-live="polite">
-    <span class="toast-icon">✓</span>
+    <span class="toast-icon">✅</span>
     <span id="toastMsg">Appointment request sent! We will contact you shortly.</span>
   </div>
 
