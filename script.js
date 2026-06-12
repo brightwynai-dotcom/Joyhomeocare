@@ -347,3 +347,206 @@ const countObserver = new IntersectionObserver((entries, observer) => {
 }, { threshold: 0.5 });
 
 countElements.forEach(el => countObserver.observe(el));
+
+/* ===================================================
+   NEW TESTIMONIALS CAROUSEL
+   =================================================== */
+(function() {
+  const trackNew    = document.getElementById('testimonialsTrackNew');
+  const prevBtnNew  = document.getElementById('testiPrevBtn');
+  const nextBtnNew  = document.getElementById('testiNextBtn');
+  const dotsWrapNew = document.getElementById('testimonialsPaginationNew');
+
+  if (!trackNew || !prevBtnNew || !nextBtnNew || !dotsWrapNew) return;
+
+  const cardsNew = trackNew.querySelectorAll('.testi-card');
+  const CARD_COUNT_NEW = cardsNew.length;
+  let currentSlideNew = 0;
+  let autoPlayTimerNew = null;
+  let isHovering = false;
+
+  function visibleCountNew() {
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768)  return 2;
+    return 1;
+  }
+
+  function cardWidthNew() {
+    if (!cardsNew[0]) return 0;
+    const rect = cardsNew[0].getBoundingClientRect();
+    const gap  = 24;
+    return rect.width + gap;
+  }
+
+  function maxSlideNew() {
+    return Math.max(0, CARD_COUNT_NEW - visibleCountNew());
+  }
+
+  function setActiveCard() {
+    cardsNew.forEach((c, i) => {
+      var isActive = i === currentSlideNew;
+      c.classList.toggle('testi-card--active', isActive);
+      c.classList.toggle('testi-card--featured', isActive);
+    });
+  }
+
+  function buildDotsNew() {
+    dotsWrapNew.innerHTML = '';
+    const total = maxSlideNew() + 1;
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'testi-pagination-dot' + (i === currentSlideNew ? ' testi-dot-active' : '');
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', 'Testimonial ' + (i + 1));
+      dot.addEventListener('click', function() { goToNew(i); });
+      dotsWrapNew.appendChild(dot);
+    }
+  }
+
+  function updateDotsNew() {
+    const dots = dotsWrapNew.querySelectorAll('.testi-pagination-dot');
+    dots.forEach(function(d, i) { d.classList.toggle('testi-dot-active', i === currentSlideNew); });
+  }
+
+  function goToNew(idx) {
+    currentSlideNew = Math.max(0, Math.min(idx, maxSlideNew()));
+    trackNew.style.transform = 'translateX(-' + (currentSlideNew * cardWidthNew()) + 'px)';
+    updateDotsNew();
+    setActiveCard();
+  }
+
+  function nextNew() { goToNew(currentSlideNew >= maxSlideNew() ? 0 : currentSlideNew + 1); }
+  function prevNew() { goToNew(currentSlideNew <= 0 ? maxSlideNew() : currentSlideNew - 1); }
+
+  function startAutoPlayNew() {
+    autoPlayTimerNew = setInterval(function() {
+      if (!isHovering) nextNew();
+    }, 4500);
+  }
+  function resetAutoPlayNew() {
+    clearInterval(autoPlayTimerNew);
+    startAutoPlayNew();
+  }
+
+  prevBtnNew.addEventListener('click', function() { resetAutoPlayNew(); prevNew(); });
+  nextBtnNew.addEventListener('click', function() { resetAutoPlayNew(); nextNew(); });
+
+  // Pause on hover
+  var carouselWrapper = trackNew.closest('.testimonials-carousel-wrapper');
+  if (carouselWrapper) {
+    carouselWrapper.addEventListener('mouseenter', function() { isHovering = true; });
+    carouselWrapper.addEventListener('mouseleave', function() { isHovering = false; });
+  }
+
+  // Touch support
+  var touchStartXNew = 0;
+  trackNew.addEventListener('touchstart', function(e) { touchStartXNew = e.touches[0].clientX; }, { passive: true });
+  trackNew.addEventListener('touchend', function(e) {
+    var diff = touchStartXNew - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { resetAutoPlayNew(); diff > 0 ? nextNew() : prevNew(); }
+  });
+
+  buildDotsNew();
+  setActiveCard();
+
+  // Start carousel auto-slide
+  function initCarousel() {
+    requestAnimationFrame(function() {
+      goToNew(0);
+      startAutoPlayNew();
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    initCarousel();
+  } else {
+    window.addEventListener('load', function() {
+      setTimeout(initCarousel, 300);
+    });
+  }
+
+  window.addEventListener('resize', function() { buildDotsNew(); goToNew(currentSlideNew); });
+})();
+
+/* ===================================================
+   REVEAL-UP OBSERVER (for testimonials section)
+   =================================================== */
+(function() {
+  var revealUpEls = document.querySelectorAll('.reveal-up');
+  if (!revealUpEls.length) return;
+
+  var revealUpObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealUpObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  revealUpEls.forEach(function(el) { revealUpObserver.observe(el); });
+})();
+
+/* ===================================================
+   TRUST METRICS COUNTER ANIMATION
+   =================================================== */
+(function() {
+  var trustCountEls = document.querySelectorAll('.trust-metric-number[data-target]');
+  if (!trustCountEls.length) return;
+
+  var trustCountObserver = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-target'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var duration = 2000;
+        var frameRate = 30;
+        var totalFrames = duration / frameRate;
+        var currentFrame = 0;
+
+        var counter = setInterval(function() {
+          currentFrame++;
+          var progress = currentFrame / totalFrames;
+          var currentCount = Math.floor(target * progress);
+          el.innerText = currentCount + suffix;
+
+          if (currentFrame >= totalFrames) {
+            el.innerText = target + suffix;
+            clearInterval(counter);
+          }
+        }, frameRate);
+
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  trustCountEls.forEach(function(el) { trustCountObserver.observe(el); });
+})();
+
+/* ===================================================
+   SUBTLE PARALLAX — Testimonials Section
+   =================================================== */
+(function() {
+  var testiSection = document.getElementById('testimonials-new');
+  if (!testiSection) return;
+
+  var floatLeaves = testiSection.querySelectorAll('.float-leaf');
+
+  window.addEventListener('scroll', function() {
+    var rect = testiSection.getBoundingClientRect();
+    var sectionTop = rect.top;
+    var sectionHeight = rect.height;
+    var windowHeight = window.innerHeight;
+
+    // Only animate when section is in view
+    if (sectionTop < windowHeight && sectionTop + sectionHeight > 0) {
+      var progress = (windowHeight - sectionTop) / (windowHeight + sectionHeight);
+      floatLeaves.forEach(function(leaf, i) {
+        var speed = (i + 1) * 15;
+        leaf.style.transform = 'translateY(' + (progress * speed - speed / 2) + 'px)';
+      });
+    }
+  }, { passive: true });
+})();
