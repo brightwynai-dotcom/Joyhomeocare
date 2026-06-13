@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joy Homoeo Care – Natural Personalised Treatment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       TOP ANNOUNCEMENT BAR
+  ═══════════════════════════════════════════ -->
+  <div class="announce-bar">
+    <a href="tel:07395960233" class="announce-right phone-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+      </svg>
+      073959 60233
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       NAVBAR  — floating pill / capsule
+  ═══════════════════════════════════════════ -->
+  <div class="navbar-wrapper">
+    <header class="navbar">
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="Home">
+        <div class="nav-logo-icon" aria-hidden="true">
+          <img src="logo_transparent.svg" alt="Joyhomeocare Logo Icon"
+            style="height: 36px; width: auto; max-width: 150px; object-fit: contain;" />
+        </div>
+        <span class="nav-logo-text">Joy Homoeo Care</span>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <ul>
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Why Homoeopathy</a></li>
+          <li><a href="#">Our Doctor</a></li>
+          <li><a href="#">Testimonials</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- CTA -->
+      <a href="#" class="nav-go-pro" id="goProBtn">Book Appointment</a>
+
+      <!-- Hamburger (mobile) -->
+      <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+  </div><!-- /navbar-wrapper -->
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <button class="mobile-drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+    <ul>
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Why Homoeopathy</a></li>
+      <li><a href="#">Our Doctor</a></li>
+      <li><a href="#">Testimonials</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <a href="#" class="nav-go-pro" style="margin-top:24px;">Book Appointment</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="hero-container">
+
+      <!-- LEFT: Blob Image -->
+      <div class="hero-image-col">
+        <div class="hero-image-wrapper">
+          <img src="ori.png" alt="Homoeopathic medicines, flowers and natural herbs on green background"
+            class="hero-img" draggable="false" />
+        </div>
+      </div>
+
+      <!-- RIGHT: Text Content -->
+      <div class="hero-text-col">
+        <h1 class="hero-title">
+          Chennai's Trusted<br>
+          <span>Homoeopathic Clinic</span>
+        </h1>
+
+        <p class="hero-subtitle" style="font-size: 1.05rem; font-weight: 600; color: var(--green-dark);">
+          — Healing from Within, Naturally —
+        </p>
+
+        <p class="hero-desc">
+          Experience the healing power of homoeopathy with personalised care in the heart of Mandaveli, Chennai. Trusted
+          remedies for chronic and acute conditions — safe for the whole family.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#" class="hero-btn">Explore Now &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+
+
+  </section>
+
+  <section id="about"></section>
+
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>

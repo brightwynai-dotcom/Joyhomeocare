@@ -1,0 +1,738 @@
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green-dark: #1B4332;
+  --green-mid: #2D6A4F;
+  --green-hero: #3d7a58;
+  --sky-blue: #e4f2fa;
+  --sky-blue-mid: #c5e3f4;
+  --white: #ffffff;
+  --text-dark: #1a3326;
+  --text-mid: #3a4a40;
+  --text-light: #6b7b72;
+  --announce-bg: #eaf4f0;
+  --navbar-bg: #ffffff;
+  --bg-beige: #fdf9ee;
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--white);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+sup {
+  font-size: 0.55em;
+  vertical-align: super;
+}
+
+/* ═══════════════════════════════════════════
+   ANNOUNCEMENT BAR
+═══════════════════════════════════════════ */
+.announce-bar {
+  width: 100%;
+  background: var(--sky-blue);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 7px 48px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  letter-spacing: 0.01em;
+}
+
+.announce-left,
+.announce-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.announce-left svg,
+.announce-right svg {
+  flex-shrink: 0;
+  color: var(--green-mid);
+}
+
+.phone-link {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.phone-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ═══════════════════════════════════════════
+   NAVBAR  — floating pill / capsule shape
+═══════════════════════════════════════════ */
+
+/* Outer wrapper — sticky white strip that holds the pill */
+.navbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  background: var(--sky-blue);
+  padding: 10px 32px;
+}
+
+.navbar {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px 9px 20px;
+  /* The pill shape */
+  border-radius: 50px;
+  border: 1px solid #e0ece6;
+  box-shadow: 0 2px 16px rgba(27, 67, 50, 0.10), 0 1px 3px rgba(0, 0, 0, 0.04);
+  gap: 8px;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.nav-logo-icon {
+  width: auto;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo-text {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 700;
+  color: #6E2E25;
+  letter-spacing: 0.02em;
+}
+
+/* Nav Links */
+.nav-links ul {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  color: #555;
+  padding: 7px 14px;
+  border-radius: 6px;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  color: var(--green-mid);
+}
+
+.nav-links a.active {
+  color: var(--green-mid);
+  font-weight: 600;
+}
+
+/* Go Pro Button */
+.nav-go-pro {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text-dark);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 24px;
+  border-radius: 50px;
+  transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-go-pro:hover {
+  background: var(--green-mid);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+/* Hamburger — hidden on desktop */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-dark);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* Mobile Drawer */
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 9999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.mobile-drawer.open {
+  display: flex;
+}
+
+.mobile-drawer ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.mobile-drawer a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  transition: color 0.2s;
+}
+
+.mobile-drawer a:hover,
+.mobile-drawer a.active {
+  color: var(--green-mid);
+}
+
+.mobile-drawer-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dark);
+}
+
+/* ═══════════════════════════════════════════
+   HERO SECTION  — exact match to reference
+═══════════════════════════════════════════ */
+.hero {
+  width: 100%;
+  background: var(--sky-blue);
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  padding: 60px 0 40px;
+  margin-top: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 100px;
+}
+
+/* ── Left: Image Wrapper ── */
+.hero-image-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image-wrapper {
+  position: relative;
+  width: min(520px, 100%);
+  aspect-ratio: 1.4 / 1;
+  border-radius: 200px;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Right: Text ── */
+.hero-text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.6vw, 3.1rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+.hero-title span {
+  color: var(--green-dark);
+}
+
+/* Checkmark badges row */
+.hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-mid);
+}
+
+.hero-badge svg {
+  flex-shrink: 0;
+}
+
+/* Description */
+.hero-desc {
+  font-size: 13.5px;
+  color: var(--text-light);
+  line-height: 1.75;
+  max-width: 370px;
+  margin-bottom: 12px;
+}
+
+/* Hero Actions */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 10px;
+}
+
+/* Hero Button */
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--green-dark);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border: 1.5px solid var(--green-dark);
+  border-radius: 50px;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.hero-btn:hover {
+  background: rgba(27, 67, 50, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.scroll-indicator:hover {
+  opacity: 0.8;
+}
+
+.scroll-indicator .mouse {
+  width: 28px;
+  height: 45px;
+  border: 2px solid var(--green-dark);
+  border-radius: 20px;
+  position: relative;
+}
+
+.scroll-indicator .mouse::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: var(--green-dark);
+  border-radius: 4px;
+  animation: scrollBounce 1.5s infinite;
+}
+
+@keyframes scrollBounce {
+  0% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, 10px);
+  }
+
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-indicator {
+    bottom: 20px;
+  }
+
+  .scroll-indicator .mouse {
+    width: 24px;
+    height: 38px;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TELEHEALTH BANNER
+═══════════════════════════════════════════ */
+.telehealth-banner {
+  background: #2b5947;
+  padding: 30px 0;
+  width: 100%;
+}
+
+.telehealth-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.telehealth-title {
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.telehealth-badge {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #f1f6ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.telehealth-badge:hover {
+  transform: scale(1.05);
+}
+
+.badge-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: spin 15s linear infinite;
+}
+
+.badge-ring svg {
+  width: 100%;
+  height: 100%;
+}
+
+.badge-ring text {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #1f4233;
+  letter-spacing: 2px;
+  font-family: var(--font-sans);
+}
+
+.badge-icon {
+  width: 32px;
+  height: 32px;
+  background: #224c3a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  z-index: 2;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SERVICES SECTION (Placeholder for styling)
+═══════════════════════════════════════════ */
+.services-section {
+  background: var(--bg-beige);
+  padding: 80px 0;
+  width: 100%;
+}
+
+.services-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 60px;
+}
+
+.services-sidebar ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.services-sidebar li {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+.services-sidebar li.active {
+  color: var(--green-mid);
+  background: var(--white);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-left: -12px;
+  width: calc(100% + 12px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.services-content {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.services-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: var(--text-dark);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.services-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.arch-image {
+  width: 200px;
+  aspect-ratio: 1 / 1.4;
+  border-radius: 100px 100px 0 0;
+  overflow: hidden;
+}
+
+.arch-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .announce-bar {
+    padding: 7px 20px;
+  }
+
+  .phone-link {
+    background-color: #1a3c34;
+    color: var(--white);
+    border-radius: 50px;
+    padding: 8px 18px;
+  }
+
+  .phone-link svg {
+    color: var(--white);
+  }
+
+  .phone-link:hover {
+    background-color: #1a3c34;
+  }
+
+  .navbar-wrapper {
+    padding: 8px 16px;
+  }
+
+  .navbar {
+    padding: 9px 16px;
+    border-radius: 50px;
+  }
+
+  .nav-links,
+  .nav-go-pro {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    padding: 0 24px;
+    gap: 36px;
+    text-align: center;
+  }
+
+  .hero-image-col {
+    justify-content: center;
+  }
+
+  .hero-image-wrapper {
+    width: min(400px, 90%);
+  }
+
+  .hero-text-col {
+    align-items: center;
+  }
+
+  .hero-badges {
+    justify-content: center;
+  }
+
+  .hero-desc {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .telehealth-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .services-container {
+    grid-template-columns: 1fr;
+  }
+
+  .services-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .announce-bar {
+    font-size: 10px;
+    padding: 6px 16px;
+  }
+
+  .hero {
+    padding: 60px 0 80px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .telehealth-title {
+    font-size: 1.2rem;
+  }
+}

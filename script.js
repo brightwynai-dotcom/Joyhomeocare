@@ -12,46 +12,50 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* ---- Sticky Header ---- */
-const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 60) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-});
+/* ---- Mobile nav toggle ---- */
+const hamburger = document.getElementById('navHamburger');
+const drawer    = document.getElementById('mobileDrawer');
 
-/* ---- Hamburger / Mobile Nav ---- */
-const hamburger  = document.getElementById('hamburger');
-const mobileNav  = document.getElementById('mobileNav');
-const mobileClose = document.getElementById('mobileClose');
+if (hamburger && drawer) {
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    drawer.classList.toggle('open');
+    const isOpen = drawer.classList.contains('open');
+    drawer.setAttribute('aria-hidden', !isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    hamburger.classList.toggle('open', isOpen);
+  });
 
-function openMenu() {
-  mobileNav.classList.add('open');
-  hamburger.classList.add('active');
-  hamburger.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
+  // Close on link click
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.classList.remove('open');
+    });
+  });
+
+  // Close on ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.classList.remove('open');
+    }
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', e => {
+    if (drawer.classList.contains('open') && !drawer.contains(e.target) && !hamburger.contains(e.target)) {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.classList.remove('open');
+    }
+  });
 }
-function closeMenu() {
-  mobileNav.classList.remove('open');
-  hamburger.classList.remove('active');
-  hamburger.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-
-hamburger.addEventListener('click', openMenu);
-mobileClose.addEventListener('click', closeMenu);
-
-// Close on any link click
-document.querySelectorAll('.mobile-link, .mobile-nav .btn').forEach(link => {
-  link.addEventListener('click', closeMenu);
-});
-
-// Close on ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeMenu();
-});
 
 /* ---- Smooth Scroll for all anchor links ---- */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -170,93 +174,6 @@ window.addEventListener('resize', () => { buildDots(); goTo(0); });
 // Re-init after fonts/images settle
 window.addEventListener('load', () => { buildDots(); goTo(0); });
 
-/* ---- Appointment Form Validation + Toast ---- */
-const form      = document.getElementById('appointmentForm');
-const toast     = document.getElementById('toast');
-const toastMsg  = document.getElementById('toastMsg');
-const submitBtn = document.getElementById('submitBtn');
-
-function setMinDate() {
-  const dateInput = document.getElementById('preferredDate');
-  const today = new Date();
-  const yyyy  = today.getFullYear();
-  const mm    = String(today.getMonth() + 1).padStart(2, '0');
-  const dd    = String(today.getDate()).padStart(2, '0');
-  dateInput.min = `${yyyy}-${mm}-${dd}`;
-}
-setMinDate();
-
-function showError(groupId, show) {
-  const group = document.getElementById(groupId);
-  if (!group) return;
-  group.classList.toggle('error', show);
-}
-
-function validateField(groupId, condition) {
-  showError(groupId, !condition);
-  return condition;
-}
-
-function showToast(msg, isSuccess = true) {
-  toastMsg.textContent = msg;
-  const icon = toast.querySelector('.toast-icon');
-  icon.textContent = isSuccess ? '✅' : '⚠️';
-  toast.style.background = isSuccess ? 'var(--green-dark)' : '#c0392b';
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4500);
-}
-
-form.addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const name      = document.getElementById('patientName').value.trim();
-  const phone     = document.getElementById('patientPhone').value.trim();
-  const condition = document.getElementById('patientCondition').value;
-  const date      = document.getElementById('preferredDate').value;
-
-  const phoneRegex = /^[6-9]\d{9}$/;
-
-  let valid = true;
-  valid = validateField('fg-name', name.length >= 2) && valid;
-  valid = validateField('fg-phone', phoneRegex.test(phone.replace(/\s/g, ''))) && valid;
-  valid = validateField('fg-condition', condition !== '') && valid;
-  valid = validateField('fg-date', date !== '') && valid;
-
-  // Live clear errors on input
-  ['patientName', 'patientPhone', 'patientCondition', 'preferredDate'].forEach(id => {
-    document.getElementById(id).addEventListener('input', () => {
-      const fg = document.getElementById(id).closest('.form-group');
-      if (fg) fg.classList.remove('error');
-    }, { once: true });
-  });
-
-  if (!valid) {
-    showToast('Please fill in all required fields correctly.', false);
-    return;
-  }
-
-  // Simulate submission
-  submitBtn.disabled = true;
-  submitBtn.textContent = '⏳  Sending...';
-
-  setTimeout(() => {
-    form.reset();
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '✅ &nbsp;Confirm Appointment Request';
-    showToast(`Thank you, ${name}! Your appointment request has been received. We will call you on ${phone} to confirm.`);
-  }, 1400);
-});
-
-// Clear individual errors on input change
-['patientName', 'patientPhone', 'patientCondition', 'preferredDate'].forEach(id => {
-  const el = document.getElementById(id);
-  const eventType = (el.tagName === 'SELECT') ? 'change' : 'input';
-  el.addEventListener(eventType, () => {
-    const fg = el.closest('.form-group');
-    if (fg) fg.classList.remove('error');
-  });
-});
-
 /* ---- Scroll to Top Button ---- */
 const scrollTopBtn = document.getElementById('scrollTop');
 
@@ -277,11 +194,92 @@ const sectionObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       const id = entry.target.getAttribute('id');
       navLinks.forEach(link => {
-        link.style.color = link.getAttribute('href') === `#${id}` ? 'var(--green-dark)' : '';
-        link.style.fontWeight = link.getAttribute('href') === `#${id}` ? '600' : '';
+        if (link.getAttribute('href') === `#${id}`) {
+          link.classList.add('nav-active');
+        } else {
+          link.classList.remove('nav-active');
+        }
       });
     }
   });
 }, { threshold: 0.45 });
 
 sections.forEach(sec => sectionObserver.observe(sec));
+
+/* ===================================================
+   MERGED FROM section1 — Doctor, Specialisation, Testimonials JS
+   =================================================== */
+
+/* ---- Area of Expertise Accordion (merged from section1) ---- */
+(function() {
+  var accordionItems = document.querySelectorAll('.expertise-accordion .accordion-item');
+  accordionItems.forEach(function(item) {
+    var header = item.querySelector('.accordion-header');
+    if (header) {
+      header.addEventListener('click', function() {
+        var isOpen = item.classList.contains('open');
+        // Close all items within this accordion
+        accordionItems.forEach(function(i) { i.classList.remove('open'); });
+        // Open clicked item if it was closed
+        if (!isOpen) {
+          item.classList.add('open');
+        }
+      });
+    }
+  });
+})();
+
+/* ---- Number Counter Animation (merged from section1) ---- */
+(function() {
+  var countElements = document.querySelectorAll('.count-num');
+  if (!countElements.length) return;
+
+  var countObserver = new IntersectionObserver(function(entries, observer) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-target'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var duration = 2000;
+        var frameRate = 30;
+        var totalFrames = duration / frameRate;
+        var currentFrame = 0;
+
+        var counter = setInterval(function() {
+          currentFrame++;
+          var progress = currentFrame / totalFrames;
+          var currentCount = Math.floor(target * progress);
+          el.innerText = currentCount + suffix;
+
+          if (currentFrame >= totalFrames) {
+            el.innerText = target + suffix;
+            clearInterval(counter);
+          }
+        }, frameRate);
+
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  countElements.forEach(function(el) { countObserver.observe(el); });
+})();
+
+/* ===================================================
+   REVEAL-UP OBSERVER (for doctor section features)
+   =================================================== */
+(function() {
+  var revealUpEls = document.querySelectorAll('.reveal-up');
+  if (!revealUpEls.length) return;
+
+  var revealUpObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealUpObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+  revealUpEls.forEach(function(el) { revealUpObserver.observe(el); });
+})();
