@@ -92,11 +92,20 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObserver.observe(el));
 
-/* ---- Testimonials Carousel ---- */
+/* ---- Testimonials Carousel (Auto-scrolling Infinite Loop) ---- */
 const track    = document.getElementById('testimonialsTrack');
 const prevBtn  = document.getElementById('prevBtn');
 const nextBtn  = document.getElementById('nextBtn');
 const dotsWrap = document.getElementById('carouselDots');
+
+// Duplicate cards for seamless infinite loop
+if (track) {
+  const originalCards = Array.from(track.querySelectorAll('.testimonial-card'));
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    track.appendChild(clone);
+  });
+}
 
 let currentSlide  = 0;
 let autoPlayTimer = null;
@@ -169,7 +178,7 @@ track.addEventListener('touchend', e => {
 });
 
 buildDots();
-startAutoPlay();
+// startAutoPlay(); // Disabled - using CSS auto-scroll animation
 window.addEventListener('resize', () => { buildDots(); goTo(0); });
 // Re-init after fonts/images settle
 window.addEventListener('load', () => { buildDots(); goTo(0); });
