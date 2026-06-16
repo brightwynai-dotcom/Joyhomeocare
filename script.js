@@ -2,11 +2,36 @@
    Joy Homoeo Care – script.js
    =================================================== */
 
+/* ---- Dynamic Navbar Height Tracking (zoom-safe) ----
+   Sets --navbar-height on :root so hero padding and
+   scroll-padding-top always match the real rendered height,
+   regardless of browser zoom level or screen size.
+----------------------------------------------------- */
+function updateNavbarHeight() {
+  const wrapper = document.querySelector('.navbar-wrapper');
+  if (!wrapper) return;
+  const h = wrapper.getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--navbar-height', Math.ceil(h) + 'px');
+}
+
+// Run immediately, on every resize/zoom change
+updateNavbarHeight();
+window.addEventListener('resize', updateNavbarHeight, { passive: true });
+
+// ResizeObserver keeps it accurate even if the bar changes height
+// (e.g. when announce-bar text wraps on very small viewports)
+if (typeof ResizeObserver !== 'undefined') {
+  const navWrapper = document.querySelector('.navbar-wrapper');
+  if (navWrapper) {
+    new ResizeObserver(updateNavbarHeight).observe(navWrapper);
+  }
+}
+
 /* ---- Trigger hero load animations ---- */
 document.addEventListener('DOMContentLoaded', () => {
+  updateNavbarHeight(); // recalculate after DOM is ready
   const heroContent = document.querySelector('.hero-content');
   if (heroContent) {
-    // Small delay so CSS is parsed before class is added
     requestAnimationFrame(() => heroContent.classList.add('loaded'));
   }
 });
@@ -65,8 +90,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const target = document.querySelector(targetId);
     if (target) {
       e.preventDefault();
-      const offset = 80; // header height
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      // Use real navbar height so scroll offset is always correct at any zoom
+      const navbarHeight = document.querySelector('.navbar-wrapper')?.getBoundingClientRect().height || 90;
+      const top = target.getBoundingClientRect().top + window.scrollY - navbarHeight;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   });
@@ -303,3 +329,224 @@ if (closeMenuBtn && drawer) {
     hamburger.classList.remove('open');
   });
 }
+/* ---- Interactive Testimonials Carousel & Reading Mode ---- */
+document.addEventListener("DOMContentLoaded", () => {
+  const track = document.getElementById("testimonialsTrack");
+  const wrap = document.querySelector(".testimonials-track-wrap");
+  const overlay = document.getElementById("readingOverlay");
+  if (!track || !wrap) return;
+
+  const originalCards = Array.from(track.children);
+  let currentIndex = 0;
+  let isPaused = false;
+  let readingModeActive = false;
+  let autoScrollTimer;
+  let activeCard = null;
+  let activeClone = null;
+
+  function getCardWidth() {
+    if (!originalCards[0]) return 0;
+    const style = window.getComputedStyle(track);
+    const gap = parseFloat(style.getPropertyValue('column-gap') || style.getPropertyValue('gap')) || 0;
+    return originalCards[0].offsetWidth + gap;
+  }
+
+  // 1. Clone cards for infinite scroll
+  originalCards.forEach(card => {
+    let clone = card.cloneNode(true);
+    clone.classList.add('clone');
+    track.appendChild(clone);
+  });
+  originalCards.forEach(card => {
+    let clone = card.cloneNode(true);
+    clone.classList.add('clone');
+    track.appendChild(clone);
+  });
+
+  const allCards = Array.from(track.children);
+  const totalCards = allCards.length;
+
+  // 2. Auto-scroll logic
+  function advanceCarousel() {
+    if (isPaused || readingModeActive) return;
+    
+    currentIndex++;
+    const step = getCardWidth();
+    track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform = `translateX(-${currentIndex * step}px)`;
+
+    // If we've reached the second set of clones, silently snap back to the start
+    if (currentIndex >= originalCards.length * 2) {
+      setTimeout(() => {
+        if (readingModeActive) return; // safety
+        track.style.transition = 'none';
+        currentIndex = originalCards.length;
+        track.style.transform = `translateX(-${currentIndex * step}px)`;
+      }, 600);
+    }
+  }
+
+  function startAutoScroll() {
+    stopAutoScroll();
+    autoScrollTimer = setInterval(advanceCarousel, 6000); 
+  }
+
+  function stopAutoScroll() {
+    clearInterval(autoScrollTimer);
+  }
+
+  // 3. Hover and Touch pause
+  wrap.addEventListener('mouseenter', () => { isPaused = true; });
+  wrap.addEventListener('mouseleave', () => { isPaused = false; });
+  wrap.addEventListener('touchstart', () => { isPaused = true; }, {passive: true});
+  wrap.addEventListener('touchend', () => { 
+    isPaused = false; 
+    if (!readingModeActive) startAutoScroll(); 
+  });
+
+  // 4. Reading Mode Interaction with Clone (Escapes overflow:hidden)
+  function exitReadingMode() {
+    if (!activeCard || !activeClone) return;
+    
+    // Animate clone back to original position
+    const rect = activeCard.getBoundingClientRect();
+    activeClone.style.top = `${rect.top}px`;
+    activeClone.style.left = `${rect.left}px`;
+    activeClone.style.transform = 'translate(0, 0) scale(1)';
+    activeClone.style.maxHeight = `${rect.height}px`; // animate back
+    
+    overlay.classList.remove('active');
+    document.body.style.overflow = ''; // Unlock page scroll
+    
+    // After transition, clean up
+    setTimeout(() => {
+      if (activeClone && activeClone.parentNode) {
+        activeClone.parentNode.removeChild(activeClone);
+      }
+      if (activeCard) {
+        activeCard.style.opacity = '1';
+      }
+      activeClone = null;
+      activeCard = null;
+      readingModeActive = false;
+      startAutoScroll();
+    }, 400); // match transition duration
+  }
+
+  allCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (readingModeActive) {
+        exitReadingMode();
+        return;
+      }
+
+      readingModeActive = true;
+      activeCard = card;
+      stopAutoScroll();
+
+      const rect = card.getBoundingClientRect();
+      
+      // Create a floating clone
+      activeClone = card.cloneNode(true);
+      activeClone.classList.add('reading-active');
+      activeClone.style.position = 'fixed';
+      activeClone.style.top = `${rect.top}px`;
+      activeClone.style.left = `${rect.left}px`;
+      activeClone.style.width = `${rect.width}px`;
+      activeClone.style.height = 'auto'; // allow it to grow if needed
+      activeClone.style.maxHeight = `${rect.height}px`; // start at original height
+      activeClone.style.margin = '0';
+      activeClone.style.zIndex = '10001';
+      activeClone.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+      activeClone.style.background = '#ffffff';
+      activeClone.style.backdropFilter = 'none';
+      activeClone.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+      activeClone.style.overflowY = 'hidden'; // hide scrollbar during transition
+      
+      document.body.appendChild(activeClone);
+      
+      // Hide original
+      card.style.opacity = '0';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Lock page scroll
+      
+      // Force reflow
+      activeClone.offsetHeight;
+      
+      // Animate to center of viewport
+      activeClone.style.top = '50%';
+      activeClone.style.left = '50%';
+      activeClone.style.transform = 'translate(-50%, -50%) scale(1.05)';
+      activeClone.style.maxHeight = '85vh'; // expand to fit text, but limit to screen
+      
+      // Show scrollbar safely after transition ends
+      setTimeout(() => {
+        if (activeClone) activeClone.style.overflowY = 'auto';
+      }, 400);
+      
+      // Clicking the clone also closes it
+      activeClone.addEventListener('click', exitReadingMode);
+    });
+  });
+
+  if (overlay) {
+    overlay.addEventListener('click', exitReadingMode);
+  }
+
+  // 5. Handle Swipe/Drag for mobile users
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
+  track.addEventListener('touchstart', (e) => {
+    if (readingModeActive) return;
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    track.style.transition = 'none';
+  }, {passive: true});
+
+  track.addEventListener('touchmove', (e) => {
+    if (!isDragging || readingModeActive) return;
+    currentX = e.touches[0].clientX;
+    const diffX = currentX - startX;
+    const step = getCardWidth();
+    const baseTranslate = -(currentIndex * step);
+    track.style.transform = `translateX(${baseTranslate + diffX}px)`;
+  }, {passive: true});
+
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging || readingModeActive) return;
+    isDragging = false;
+    const diffX = currentX - startX;
+    const step = getCardWidth();
+    
+    if (Math.abs(diffX) > 50) {
+      if (diffX < 0) {
+        currentIndex++; 
+      } else {
+        currentIndex--; 
+      }
+    }
+    
+    if (currentIndex < 0) currentIndex = totalCards - 1;
+    
+    track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform = `translateX(-${currentIndex * step}px)`;
+  });
+
+  // Re-adjust on window resize to prevent drifting
+  window.addEventListener('resize', () => {
+    if (readingModeActive) exitReadingMode(); // safely exit on resize to avoid broken clone math
+    const step = getCardWidth();
+    track.style.transition = 'none';
+    track.style.transform = `translateX(-${currentIndex * step}px)`;
+  }, {passive: true});
+
+  // Start the engine
+  const initialStep = getCardWidth();
+  currentIndex = originalCards.length;
+  track.style.transition = 'none';
+  track.style.transform = `translateX(-${currentIndex * initialStep}px)`;
+  
+  setTimeout(startAutoScroll, 100);
+});

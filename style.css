@@ -1,4 +1,4 @@
-﻿/* ===== IMPORTS ===== */
+/* ===== IMPORTS ===== */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 /* ===== RESET & BASE ===== */
@@ -36,13 +36,24 @@
   --section-title-size: clamp(28px, 4vw, 42px);
   --section-subtitle-size: clamp(0.95rem, 1.5vw, 1.05rem);
   
-  /* ===== SPACING ===== */
-  --section-padding-desktop: 120px;
-  --section-padding-mobile: 80px;
+  /* ===== FLUID SPACING SYSTEM ===== */
+  --section-padding-y: clamp(60px, 8vw, 120px);
+  --section-gap-fluid: clamp(40px, 6vw, 80px);
+  --content-gap-fluid: clamp(24px, 4vw, 48px);
+  --text-gap-fluid: clamp(12px, 2vw, 24px);
+  --card-padding-fluid: clamp(20px, 3.5vw, 40px);
+
+  /* ===== UNIFIED VERTICAL RHYTHM (Section Header Typography) ===== */
+  /* Distance: section-label → section-title */
+  --gap-label-title: clamp(8px, 1vw, 12px);
+  /* Distance: section-title → description/subtitle below it */
+  --gap-title-desc: clamp(12px, 1.5vw, 20px);
+  /* Distance: entire header block (label+title+desc) → content area below */
+  --gap-header-content: clamp(32px, 5vw, 64px);
+  
   --container-padding-xl: 80px;
   --container-padding-lg: 48px;
   --container-padding-md: 24px;
-  --section-gap: 60px;
   
   /* ===== CARDS ===== */
   --card-radius: 24px;
@@ -68,6 +79,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* Ensures anchor links scroll to below the fixed navbar at any zoom level.
+     The JS sets --navbar-height dynamically; 90px is a safe fallback. */
+  scroll-padding-top: var(--navbar-height, 90px);
 }
 
 
@@ -142,7 +156,7 @@ ul {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #9CA3AF;
-  margin-bottom: 12px;
+  margin-bottom: var(--gap-label-title);
 }
 
 .section-title {
@@ -151,7 +165,7 @@ ul {
   line-height: 1.2;
   color: var(--text-primary);
   text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: var(--gap-title-desc);
 }
 
 .section-subtitle {
@@ -307,21 +321,27 @@ select:focus-visible {
   transform: translate(0, 0) !important;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   ANNOUNCEMENT BAR
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .announce-bar {
   width: 100%;
   background: var(--sky-blue);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 7px 48px;
-  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  /* Fluid padding: shrinks gracefully at high zoom / small screens */
+  padding: clamp(6px, 0.8vh, 10px) clamp(16px, 3vw, 48px);
+  font-size: clamp(0.7rem, 1.2vw, 0.875rem);
   font-weight: 500;
   color: #000000;
   letter-spacing: 0.01em;
-  gap: 24px;
+  gap: clamp(16px, 3vw, 32px);
+  flex-wrap: wrap; /* wraps on very narrow viewports */
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .announce-bar {
+    justify-content: center;
+  }
 }
 
 .announce-left,
@@ -344,7 +364,7 @@ select:focus-visible {
   letter-spacing: 0.02em;
   text-decoration: none;
   transition: all 0.28s ease;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 50px;
   margin-right: -10px;
   color: #000000;
@@ -352,18 +372,16 @@ select:focus-visible {
 }
 
 .phone-link:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--green-dark);
+  transform: scale(1.03);
 }
 
 @media (max-width: 900px) {
-  .announce-bar {
-    justify-content: flex-end;
-  }
-
   .phone-link {
     background: #1a3c34;
     color: #ffffff !important;
-    padding: 8px 18px;
+    padding: 6px 16px;
     margin-right: 0;
   }
 
@@ -395,11 +413,14 @@ select:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px 10px 20px;
+  /* Fluid inner padding so the pill doesn’t get cramped at high zoom */
+  padding: clamp(7px, 0.8vh, 12px) clamp(12px, 1.5vw, 18px) clamp(7px, 0.8vh, 12px) clamp(14px, 1.8vw, 22px);
   border-radius: 50px;
   border: 1px solid #e0ece6;
   box-shadow: 0 2px 16px rgba(27, 67, 50, 0.10), 0 1px 3px rgba(0, 0, 0, 0.04);
-  gap: 12px;
+  gap: clamp(6px, 1vw, 12px);
+  flex-wrap: nowrap;
+  box-sizing: border-box;
 }
 
 /* Logo */
@@ -414,10 +435,17 @@ select:focus-visible {
 
 .nav-logo-icon {
   width: auto;
-  height: 36px;
+  height: clamp(30px, 4vh, 42px);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.nav-logo-icon img {
+  height: 100%;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
 }
 
 .nav-logo-text {
@@ -439,7 +467,7 @@ select:focus-visible {
 /* Tagline under logo */
 .nav-tagline {
   display: block;
-  font-size: 0.68rem;
+  font-size: clamp(0.55rem, 1.5vw, 0.68rem);
   font-weight: 600;
   color: var(--green-mid);
   letter-spacing: 0.05em;
@@ -650,8 +678,8 @@ select:focus-visible {
 }
 
 /* ===== GLOBAL SECTION SPACING & BACKGROUNDS ===== */
-section {
-  padding: 100px 0;
+.about-section {
+  padding: var(--section-padding-y) 0;
   position: relative;
 }
 
@@ -699,16 +727,21 @@ section {
 /* ===== HERO ===== */
 .hero {
   width: 100%;
-  height: 100vh; /* Full viewport height so hero fills the entire first screen */
+  /* Drop height: 100vh — it ignores the navbar offset and causes gaps/overflow at zoom.
+     Use min-height so content always fills the viewport but can grow if needed. */
+  min-height: 100vh;   /* safe fallback */
+  min-height: 100svh;  /* svh = small viewport height – excludes mobile browser chrome */
   background-color: #e4f2fa;
   display: flex;
   align-items: center;
-  justify-content: center; /* Horizontally centers the hero-container within the section */
-  padding: 100px 0 40px; /* Top padding clears the fixed navbar; bottom tightened for 100vh fit */
+  justify-content: center;
+  /* padding-top driven by JS-measured --navbar-height so it’s always exact.
+     90px fallback matches the approximate navbar height at 100% zoom. */
+  padding: var(--navbar-height, 90px) 0 clamp(24px, 4vh, 48px);
   margin-top: 0;
   overflow: hidden;
   position: relative;
-  box-sizing: border-box; /* Ensures padding is included in the 100vh height calculation */
+  box-sizing: border-box;
 
   --sky-blue: #e4f2fa;
   --text-dark: #1F2937;
@@ -722,12 +755,11 @@ section {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 clamp(24px, 4vw, 48px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 48px;
-  max-height: 100%; /* Prevents grid from overflowing the hero's 100vh */
+  gap: clamp(32px, 4vw, 48px);
 }
 
 /* â”€â”€ Left: Image Wrapper â”€â”€ */
@@ -825,7 +857,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: var(--content-gap-fluid);
   margin-top: 10px;
   width: 100%;
 }
@@ -915,15 +947,15 @@ section {
 
 @media (max-width: 900px) {
   .hero {
-    padding: 120px 0 40px;
-    height: auto;
+    /* Let --navbar-height drive top padding; just ensure it can grow tall enough */
+    min-height: 100svh;
     min-height: 100vh;
   }
 
   .hero-container {
     grid-template-columns: 1fr;
     padding: 0 24px;
-    gap: 32px;
+    gap: var(--content-gap-fluid);
     text-align: center;
   }
 
@@ -973,14 +1005,13 @@ section {
 
 @media (max-width: 480px) {
   .hero {
-    padding: 110px 0 32px;
+    min-height: 100svh;
     min-height: 100vh;
-    height: auto;
   }
 
   .hero-container {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: var(--content-gap-fluid);
     padding: 0 16px;
     text-align: center;
   }
@@ -1029,8 +1060,8 @@ section {
 }
 
 /* ===== ABOUT ===== */
-.about-section {
-  padding: var(--section-padding-desktop) 0;
+.spec-section {
+  padding: var(--section-padding-y) 0;
   background-color: #FAF8F4;
   position: relative;
 }
@@ -1039,7 +1070,7 @@ section {
 .about-top-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: var(--section-gap-fluid);
   align-items: center;
   margin-bottom: 72px;
 }
@@ -1047,7 +1078,6 @@ section {
 .about-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .about-label {
@@ -1059,8 +1089,7 @@ section {
   letter-spacing: 0.18em;
   color: #7A6C65;
   text-transform: uppercase;
-  margin-bottom: 0;
-  margin-top: -4px;
+  margin-bottom: var(--gap-label-title);
 }
 
 .about-accent-line {
@@ -1075,8 +1104,7 @@ section {
   font-size: clamp(2.2rem, 4vw, 3.2rem);
   color: #3D7A4A;
   line-height: 1.15;
-  margin-bottom: 2px;
-  margin-top: 0;
+  margin-bottom: var(--gap-title-desc);
 }
 
 /* Hero-matching palette for about section */
@@ -1142,7 +1170,7 @@ section {
 .feature-cards-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px;
+  gap: var(--content-gap-fluid);
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
@@ -1285,7 +1313,7 @@ section {
 
 /* ===== DOCTOR ===== */
 #doctor {
-  padding: var(--section-padding-desktop) 0;
+  padding: var(--section-padding-y) 0;
   background-color: #FAF8F4;
   position: relative;
   overflow: hidden;
@@ -1316,7 +1344,7 @@ section {
 .doctor-grid {
   display: grid;
   grid-template-columns: 380px 1fr;
-  gap: 72px;
+  gap: var(--section-gap-fluid);
   align-items: center;
   position: relative;
   z-index: 1;
@@ -1451,13 +1479,13 @@ section {
 
 /* ===== SERVICES ===== */
 #services {
-  padding: clamp(48px, 8vw, 100px) 0;
+  padding: var(--section-padding-y) 0;
   background-color: #F4F1F9;
 }
 
 .services-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: var(--gap-header-content);
 }
 
 .services-header .section-subtitle {
@@ -1467,7 +1495,7 @@ section {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+  gap: var(--content-gap-fluid);
 }
 
 .service-card {
@@ -1542,7 +1570,7 @@ section {
 
 /* ===== WHY HOMOEOPATHY ===== */
 .why-section {
-  padding: var(--section-padding-desktop) 0;
+  padding: var(--section-padding-y) 0;
   background-color: #FAF8F4;
   position: relative;
   overflow: hidden;
@@ -1557,7 +1585,7 @@ section {
 /* --- Section Header --- */
 .why-header {
   text-align: left;
-  margin-bottom: 32px;
+  margin-bottom: var(--gap-header-content);
   max-width: 700px;
 }
 
@@ -1567,7 +1595,7 @@ section {
   letter-spacing: 0.22em;
   color: #8B6F47;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: var(--gap-label-title);
   display: inline-block;
 }
 
@@ -1578,7 +1606,7 @@ section {
   color: #3D7A4A;
   letter-spacing: 0.02em;
   line-height: 1.1;
-  margin-bottom: 16px;
+  margin-bottom: var(--gap-title-desc);
 }
 
 .why-divider-line {
@@ -1605,7 +1633,7 @@ section {
 .why-body {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: var(--section-gap-fluid);
   align-items: center;
   padding: 20px 0 48px;
 }
@@ -1617,7 +1645,7 @@ section {
 }
 
 .why-body-text .why-main-title {
-  margin-bottom: 12px;
+  margin-bottom: var(--gap-title-desc);
 }
 
 .why-body-text .why-subtitle {
@@ -1643,7 +1671,7 @@ section {
 .why-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: var(--content-gap-fluid);
   padding-top: 24px;
 }
 
@@ -1815,7 +1843,7 @@ section {
 
 /* ===== TESTIMONIALS ===== */
 #testimonials {
-  padding: var(--section-padding-desktop) 0;
+  padding: var(--section-padding-y) 0;
   background-color: #FAF7F2;
   position: relative;
   overflow: hidden;
@@ -1839,23 +1867,50 @@ section {
 .testimonials-track {
   display: flex;
   gap: 24px;
-  animation: scrollTestimonials 40s linear infinite;
   width: max-content;
   padding: 0 20px;
+  /* JS handles transform */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
 }
 
-.testimonials-track-wrap:hover .testimonials-track {
-  animation-play-state: paused;
+/* --- Interactive Carousel Reading Mode --- */
+.reading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-@keyframes scrollTestimonials {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.reading-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
+
+.testimonial-card {
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.testimonial-card.reading-active {
+  z-index: 10001;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+  pointer-events: auto;
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+}
+
 
 .testimonials-header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: var(--gap-header-content);
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
@@ -1903,7 +1958,7 @@ section {
 /* Testimonials Review Summary */
 .testimonials-summary {
   text-align: left;
-  margin-bottom: 48px;
+  margin-bottom: var(--section-gap-fluid);
   padding: 24px;
   background: var(--bg-primary);
   border-radius: var(--card-radius);
@@ -2095,9 +2150,6 @@ section {
     padding: 48px 0;
   }
 
-  .testimonials-header {
-    margin-bottom: 32px;
-  }
 
   .testimonial-card {
     flex: 0 0 290px;
@@ -2326,7 +2378,7 @@ section {
 
 .appt-contact-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   color: #1F2937;
   font-size: 0.92rem;
@@ -2471,7 +2523,7 @@ footer {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
   gap: 48px;
-  margin-bottom: 48px;
+  margin-bottom: var(--section-gap-fluid);
 }
 
 .footer-brand .logo {
@@ -2664,18 +2716,11 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .announce-bar {
-    padding: 7px 20px;
-  }
 
-  .navbar-wrapper {
-    padding: 8px 16px;
-  }
 
-  .navbar {
-    padding: 9px 16px;
-    border-radius: 50px;
-  }
+
+
+
 
   .nav-links,
   .nav-go-pro {
@@ -2719,13 +2764,7 @@ footer {
     padding: 60px 0 40px;
   }
 
-  #doctor,
-  #services,
-  #testimonials,
-  #appointment,
-  #contact {
-    padding: 60px 0;
-  }
+
 }
 
 @media (max-width: 768px) {
@@ -2752,10 +2791,7 @@ footer {
 }
 
 @media (max-width: 480px) {
-  .announce-bar {
-    font-size: 11px;
-    padding: 8px 16px;
-  }
+
 
   .hero-stats {
     flex-wrap: wrap;
@@ -2873,36 +2909,12 @@ body {
 @media (max-width: 1024px) {
 
   /* Navbar: protect logo from clipping */
-  .navbar-wrapper {
-    padding: 8px 16px !important;
-  }
 
-  .navbar {
-    padding: 10px 16px 10px 18px !important;
-    gap: 8px !important;
-    width: 100% !important;
-  }
 
-  .nav-logo {
-    flex-shrink: 0 !important;
-    min-width: 0 !important;
-  }
 
-  .nav-logo-text-group {
-    display: flex !important;
-    flex-direction: column !important;
-  }
 
-  .nav-logo-text {
-    font-size: clamp(0.95rem, 2.5vw, 1.125rem) !important;
-    font-weight: 700 !important;
-    white-space: nowrap !important;
-  }
 
-  .nav-tagline {
-    display: block !important;
-    font-size: clamp(0.6rem, 1.8vw, 0.7rem) !important;
-  }
+
 
   /* Hero: collapse to single column */
   .hero-container {
@@ -2914,10 +2926,7 @@ body {
   }
 
   .hero {
-    padding-top: 120px !important;
     padding-bottom: 40px !important;
-    min-height: 100vh !important;
-    height: auto !important;
   }
 
   .hero-image-col {
@@ -3012,34 +3021,13 @@ body {
     min-height: 44px !important;
   }
 
-  .navbar-wrapper {
-    padding: 8px 12px !important;
-  }
 
-  .navbar {
-    padding: 10px 14px 10px 16px !important;
-    gap: 8px !important;
-  }
 
-  .nav-logo-text-group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0 !important;
-  }
 
-  .nav-logo-text {
-    font-size: clamp(0.9rem, 3.5vw, 1.1rem) !important;
-    font-weight: 700 !important;
-    white-space: nowrap !important;
-    overflow: visible !important;
-    text-overflow: unset !important;
-  }
 
-  .nav-tagline {
-    display: block !important;
-    font-size: clamp(0.55rem, 2vw, 0.65rem) !important;
-    white-space: nowrap !important;
-  }
+
+
+
 
   /* Hero */
   .hero-container {
@@ -3048,10 +3036,7 @@ body {
   }
 
   .hero {
-    padding-top: 120px !important;
     padding-bottom: 36px !important;
-    min-height: 100vh !important;
-    height: auto !important;
   }
 
   .hero-image-wrapper {
@@ -3136,13 +3121,7 @@ body {
   }
 
   /* Sections */
-  #doctor,
-  #services,
-  #testimonials,
-  #appointment,
-  #contact {
-    padding: 48px 0 !important;
-  }
+
 
   .about-section {
     padding: 48px 0 28px !important;
@@ -3214,17 +3193,9 @@ body {
     font-size: 1.5rem !important;
   }
 
-  .nav-logo-text {
-    font-size: clamp(0.8rem, 4.5vw, 0.95rem) !important;
-    font-weight: 700 !important;
-    max-width: none !important;
-    white-space: nowrap !important;
-  }
 
-  .nav-tagline {
-    display: block !important;
-    font-size: clamp(0.5rem, 2.5vw, 0.6rem) !important;
-  }
+
+
 
   .why-cards-grid {
     grid-template-columns: 1fr !important;
@@ -3655,7 +3626,7 @@ body {
 .spec-section .section-header {
   text-align: center;
   max-width: 100%;
-  margin: 0 auto var(--section-gap);
+  margin: 0 auto var(--gap-header-content);
 }
 
 .spec-section .section-label {
@@ -3666,7 +3637,7 @@ body {
   letter-spacing: 0.18em;
   color: #7A6C65;
   text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: var(--gap-label-title);
 }
 
 .spec-section .about-accent-line {
@@ -3713,7 +3684,7 @@ body {
 /* Section Header */
 .section-header {
   text-align: left;
-  margin-bottom: var(--section-gap);
+  margin-bottom: var(--gap-header-content);
   max-width: 700px;
 }
 
@@ -3724,7 +3695,7 @@ body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--text-light);
-  margin-bottom: 12px;
+  margin-bottom: var(--gap-label-title);
 }
 
 .section-title {
@@ -3733,7 +3704,7 @@ body {
   line-height: 1.2;
   color: var(--text-primary);
   text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: var(--gap-title-desc);
 }
 
 .section-subtitle {
@@ -3994,7 +3965,7 @@ body {
 }
 #testimonials .testimonials-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: var(--gap-header-content);
 }
 #testimonials .testimonials-header .section-label {
   color: var(--gold);
@@ -4002,12 +3973,10 @@ body {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 12px;
 }
 #testimonials .testimonials-header .section-title {
   font-size: clamp(2rem, 4vw, 2.8rem);
   color: var(--green-dark);
-  margin-bottom: 16px;
 }
 #testimonials .testimonials-header .section-subtitle {
   font-size: 1.05rem;
@@ -4022,12 +3991,7 @@ body {
 #testimonials .testimonials-track {
   display: flex;
   gap: 24px;
-  animation: scrollTestimonials 40s linear infinite;
   width: max-content;
-}
-
-#testimonials .testimonials-track-wrap:hover .testimonials-track {
-  animation-play-state: paused;
 }
 #testimonials .testimonial-card {
   flex: 0 0 360px;
@@ -4175,7 +4139,7 @@ body {
    APPOINTMENT SECTION (merged from joyhomeocare)
    ================================================================= */
 #appointment {
-  padding: clamp(48px, 8vw, 100px) 0;
+  padding: var(--section-padding-y) 0;
   background: #FAF7F2;
   position: relative;
   overflow: hidden;
@@ -4204,13 +4168,11 @@ body {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 12px;
   display: inline-block;
 }
 #appointment .appointment-info .section-title {
   font-size: clamp(2rem, 4vw, 2.8rem);
   color: #3D7A4A;
-  margin-bottom: 16px;
 }
 #appointment .appointment-info p {
   color: #3d5248;
@@ -4225,7 +4187,7 @@ body {
 }
 #appointment .appt-contact-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   color: #3d5248;
   font-size: 0.92rem;
@@ -4276,13 +4238,11 @@ body {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 12px;
   display: inline-block;
 }
 #contact .contact-info .section-title {
   font-size: clamp(2rem, 4vw, 2.8rem);
   color: var(--green-dark);
-  margin-bottom: 16px;
 }
 #contact .contact-desc {
   font-size: 0.95rem;
@@ -4366,7 +4326,7 @@ footer .footer-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
   gap: 48px;
-  margin-bottom: 48px;
+  margin-bottom: var(--section-gap-fluid);
 }
 footer .footer-brand .logo-name {
   color: var(--white);
@@ -4530,14 +4490,6 @@ footer .footer-social a:hover {
     gap: 24px;
   }
 
-  #doctor,
-  #services,
-  #testimonials,
-  #appointment,
-  #contact {
-    padding: 120px 0;
-  }
-
   .about-section {
     padding: 120px 0 80px;
   }
@@ -4557,13 +4509,9 @@ footer .footer-social a:hover {
 /* === Responsive: Laptop (1025px – 1280px) === */
 @media (max-width: 1280px) {
   /* === Responsive: Navbar === */
-  .navbar-wrapper {
-    padding: 8px 20px;
-  }
 
-  .navbar {
-    padding: 8px 12px 8px 16px;
-  }
+
+
 
   .nav-logo-text {
     font-size: 16px;
@@ -4692,10 +4640,7 @@ footer .footer-social a:hover {
   #doctor,
   #services,
   #testimonials,
-  #appointment,
-  #contact {
-    padding: 80px 0;
-  }
+
 
   .about-section {
     padding: 80px 0 50px;
@@ -4713,15 +4658,9 @@ footer .footer-social a:hover {
 /* === Responsive: Tablet (768px – 1024px) === */
 @media (max-width: 1024px) {
   /* === Responsive: Navbar === */
-  .navbar-wrapper {
-    padding: 8px 16px;
-  }
 
-  .navbar {
-    padding: 8px 14px 8px 16px;
-    gap: 6px;
-    width: 100%;
-  }
+
+
 
   .nav-logo-text {
     font-size: 15px;
@@ -4729,8 +4668,7 @@ footer .footer-social a:hover {
 
   /* === Responsive: Hero Section === */
   .hero {
-    padding: 100px 0 32px;
-    height: 100vh; /* Full viewport at laptop breakpoint */
+    padding-bottom: 32px;
   }
 
   .hero-container {
@@ -4901,10 +4839,7 @@ footer .footer-social a:hover {
   #doctor,
   #services,
   #testimonials,
-  #appointment,
-  #contact {
-    padding: 64px 0;
-  }
+
 
   .about-section {
     padding: 64px 0 40px;
@@ -4933,16 +4868,11 @@ footer .footer-social a:hover {
     min-height: 44px;
   }
 
-  .nav-logo-text {
-    font-size: 14px;
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+
 
   /* === Responsive: Hero Section === */
   .hero {
-    padding: 110px 0 28px;
+    padding-bottom: 28px;
   }
 
   .hero-container {
@@ -5019,9 +4949,6 @@ footer .footer-social a:hover {
   }
 
   /* === Responsive: Why Section === */
-  .why-header {
-    padding: 40px 16px 24px;
-  }
 
   .why-main-title {
     font-size: clamp(2rem, 7vw, 3.2rem);
@@ -5130,9 +5057,6 @@ footer .footer-social a:hover {
     padding: 28px 24px;
   }
 
-  #testimonials .testimonials-header {
-    margin-bottom: 40px;
-  }
 
   #testimonials .testimonials-track {
     gap: 0;
@@ -5186,10 +5110,7 @@ footer .footer-social a:hover {
   #doctor,
   #services,
   #testimonials,
-  #appointment,
-  #contact {
-    padding: 52px 0;
-  }
+
 
   .about-section {
     padding: 52px 0 32px;
@@ -5233,32 +5154,17 @@ footer .footer-social a:hover {
   }
 
   /* === Responsive: Navbar === */
-  .announce-bar {
-    font-size: 11px;
-    padding: 7px 16px;
-  }
 
-  .navbar-wrapper {
-    padding: 6px 12px;
-  }
 
-  .navbar {
-    padding: 7px 10px;
-    border-radius: 40px;
-  }
 
-  .nav-logo-icon {
-    height: 30px;
-  }
 
-  .nav-logo-text {
-    font-size: 13px;
-    max-width: 140px;
-  }
+
+
+
 
   /* === Responsive: Hero Section === */
   .hero {
-    padding: 100px 0 20px;
+    padding-bottom: 20px;
   }
 
   .hero-container {
@@ -5339,9 +5245,6 @@ footer .footer-social a:hover {
   }
 
   /* === Responsive: Why Section === */
-  .why-header {
-    padding: 32px 12px 20px;
-  }
 
   .why-main-title {
     font-size: clamp(1.8rem, 8vw, 2.8rem);
@@ -5471,18 +5374,13 @@ footer .footer-social a:hover {
     font-size: 0.9rem;
   }
 
-  #testimonials .testimonials-header {
-    margin-bottom: 28px;
-  }
 
   #testimonials .testimonials-controls {
     margin-top: 24px;
   }
 
   /* === Responsive: Appointment Section === */
-  #appointment {
-    padding: 40px 0;
-  }
+
 
   #appointment .appointment-inner {
     gap: 28px;
@@ -5534,7 +5432,6 @@ footer .footer-social a:hover {
   /* === Responsive: Section Titles === */
   .section-title {
     font-size: clamp(1.4rem, 5vw, 1.8rem);
-    margin-bottom: 12px;
   }
 
   .section-label {
@@ -5560,7 +5457,7 @@ footer .footer-social a:hover {
   }
 
   .hero {
-    padding: 100px 0 16px;
+    padding-bottom: 16px;
   }
 
   .hero-container {
@@ -5577,10 +5474,7 @@ footer .footer-social a:hover {
     border-radius: 60px;
   }
 
-  .nav-logo-text {
-    font-size: 12px;
-    max-width: 120px;
-  }
+
 
   .about-heading {
     font-size: clamp(1.3rem, 5.5vw, 1.6rem);
@@ -5777,14 +5671,14 @@ footer .footer-social a:hover {
 .hero-title, .about-heading { text-wrap: balance; }
 .hero-title, .hero-title span { color: #3D7A4A; }
 .hero-subtitle { font-size: 0.95rem; font-weight: 600; color: #8B6F47; }
-.doctor-modern-content-col .section-label { margin-bottom: 8px; }
+.doctor-modern-content-col .section-label { margin-bottom: var(--gap-label-title); }
 #doctor-title { margin-bottom: 0; }
 .doctor-degree-badge { margin-bottom: 0; }
 .expertise-accordion-section { margin-top: 0; }
 .why-subtitle { text-align: justify; }
 .contact-item-label { font-size: 0.78rem; color: #8B6F47; text-transform: uppercase; letter-spacing: 0.08em; }
-.contact-item-link { color: #3D7A4A; font-weight: 700; font-size: 1.1rem; text-decoration: none; background: rgba(61, 122, 74, 0.08); padding: 6px 14px; border-radius: 8px; display: inline-block; margin-top: 4px; }
-.contact-item-link-maps { color: #3D7A4A; font-size: 0.82rem; display: inline-block; margin-top: 4px; text-decoration: underline; }
+.contact-item-link { color: #3D7A4A; font-weight: 700; font-size: 1.1rem; text-decoration: none; margin-top: 4px; display: block; }
+.contact-item-link-maps { color: #3D7A4A; font-size: 0.82rem; display: block; margin-top: 4px; text-decoration: underline; }
 
 /* Global Typography Standardization */
 .hero-title, .about-heading, .why-main-title, .section-title, .testimonials-header .section-title {
@@ -5821,15 +5715,7 @@ footer .footer-social a:hover {
   font-weight: 600 !important;
   transition: all 0.3s ease !important;
 }
-#hero, #about, #specialisation, #doctor, #why, #testimonials, #appointment {
-  padding: 120px 0 !important;
-}
-@media (max-width: 1024px) {
-  #hero, #about, #specialisation, #doctor, #why, #testimonials, #appointment { padding: 80px 0 !important; }
-}
-@media (max-width: 768px) {
-  #hero, #about, #specialisation, #doctor, #why, #testimonials, #appointment { padding: 60px 0 !important; }
-}
+
 .spec-card, .why-card, .testimonial-card, .contact-card {
   border-radius: 24px !important;
 }
@@ -5864,38 +5750,33 @@ img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
 
 /* =================== NAVBAR =================== */
 @media (max-width: 768px) {
-  .announce-bar {
-    font-size: 0.72rem;
-    padding: 6px 12px;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-  .nav-logo-text { font-size: 0.85rem; }
-  .nav-tagline { font-size: 0.65rem; }
+
+
+
 }
 
 /* =================== HERO =================== */
 @media (max-width: 768px) {
-  .hero { padding-top: 110px; padding-bottom: 40px; min-height: auto; }
+  .hero { padding-bottom: 40px; }
   .hero-container {
-    grid-template-columns: 1fr !important;
-    gap: 24px !important;
-    padding: 0 16px !important;
-    text-align: center !important;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0 16px;
+    text-align: center;
   }
   .hero-image-col { order: -1; justify-content: center; }
-  .hero-image-wrapper { width: clamp(200px, 70vw, 340px) !important; margin: 0 auto; }
-  .hero-text-col { align-items: center !important; padding: 0 !important; }
-  .hero-title { font-size: clamp(1.6rem, 6vw, 2.2rem) !important; text-align: center !important; }
-  .hero-subtitle { font-size: 0.9rem !important; }
+  .hero-image-wrapper { width: clamp(200px, 70vw, 340px); margin: 0 auto; }
+  .hero-text-col { align-items: center; padding: 0; }
+  .hero-title { font-size: clamp(1.6rem, 6vw, 2.2rem); text-align: center; }
+  .hero-subtitle { font-size: 0.9rem; }
   .hero-desc { font-size: 0.875rem; text-align: justify; }
   .hero-actions { justify-content: center; flex-wrap: wrap; gap: 12px; }
   .hero-btn { min-width: 140px; }
 }
 
 @media (max-width: 425px) {
-  .hero-title { font-size: clamp(1.4rem, 7vw, 1.8rem) !important; }
-  .hero-image-wrapper { width: clamp(180px, 75vw, 280px) !important; }
+  .hero-title { font-size: clamp(1.4rem, 7vw, 1.8rem); }
+  .hero-image-wrapper { width: clamp(180px, 75vw, 280px); }
 }
 
 /* =================== ABOUT =================== */
@@ -5937,7 +5818,6 @@ img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
   .spec-card-title { font-size: 0.82rem !important; }
   .spec-card-desc { font-size: 0.75rem !important; }
   .spec-icon-circle { width: 44px !important; height: 44px !important; }
-  .section-header { margin-bottom: 24px; }
 }
 
 @media (max-width: 425px) {
