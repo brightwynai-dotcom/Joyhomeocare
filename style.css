@@ -2513,11 +2513,38 @@ select:focus-visible {
   display: block;
 }
 
+/* ===== PRE-FOOTER ANIMATED VIDEO SECTION ===== */
+.pre-footer-video-section {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: #0e2a1c;
+  margin: 0;
+  padding: 0;
+}
+
+.pre-footer-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border: none;
+  background: transparent;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
 /* ===== FOOTER ===== */
 footer {
   background: #0e2a1c;
   color: rgba(255, 255, 255, 0.7);
   padding: 60px 0 28px;
+  margin-top: 0;
 }
 
 .footer-grid {
@@ -3967,6 +3994,9 @@ body {
 #testimonials .testimonials-header {
   text-align: center;
   margin-bottom: var(--gap-header-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #testimonials .testimonials-header .section-label {
   color: var(--gold);
@@ -3974,10 +4004,14 @@ body {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  display: inline-block;
+  margin: 0 auto;
 }
 #testimonials .testimonials-header .section-title {
   font-size: clamp(2rem, 4vw, 2.8rem);
   color: var(--green-dark);
+  text-align: center;
+  margin: 0 auto;
 }
 #testimonials .testimonials-header .section-subtitle {
   font-size: 1.05rem;
@@ -5954,8 +5988,12 @@ img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
   .appt-contact-item { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
 }
 
-/* =================== FOOTER =================== */
+/* =================== PRE-FOOTER VIDEO + FOOTER =================== */
 @media (max-width: 768px) {
+  .pre-footer-video-section {
+    height: 300px;
+  }
+  
   footer .footer-grid {
     grid-template-columns: 1fr !important;
     gap: 28px !important;
@@ -5968,6 +6006,18 @@ img, svg, video, iframe { max-width: 100%; height: auto; display: block; }
   .footer-social { justify-content: center !important; }
   .footer-heading { font-size: 0.95rem; }
   .footer-links li, .footer-contact-item { font-size: 0.82rem; }
+}
+
+@media (max-width: 480px) {
+  .pre-footer-video-section {
+    height: 250px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pre-footer-video-section {
+    height: 200px;
+  }
 }
 
 /* =================== SECTION TITLES MOBILE =================== */
