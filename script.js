@@ -119,106 +119,297 @@ const revealObserver = new IntersectionObserver((entries) => {
 revealEls.forEach(el => revealObserver.observe(el));
 
 /* ---- Testimonials Carousel (Auto-scrolling Infinite Loop) ---- */
-const track    = document.getElementById('testimonialsTrack');
-const prevBtn  = document.getElementById('prevBtn');
-const nextBtn  = document.getElementById('nextBtn');
-const dotsWrap = document.getElementById('carouselDots');
+document.addEventListener('DOMContentLoaded', () => {
+  const track    = document.getElementById('testimonialsTrack');
+  const prevBtn  = document.getElementById('prevBtn');
+  const nextBtn  = document.getElementById('nextBtn');
+  const dotsWrap = document.getElementById('carouselDots');
+  const wrap     = document.querySelector('.testimonials-track-wrap');
+  const overlay  = document.getElementById('readingOverlay');
 
-// Duplicate cards for seamless infinite loop
-if (track) {
-  const originalCards = Array.from(track.querySelectorAll('.testimonial-card'));
-  originalCards.forEach(card => {
-    const clone = card.cloneNode(true);
-    track.appendChild(clone);
+  if (!track || !prevBtn || !nextBtn || !dotsWrap) return;
+
+  /* ── Clone cards: structure = [real 0..n-1] [clone-A n..2n-1] [clone-B 2n..3n-1] ── */
+  const originalCards = Array.from(track.querySelectorAll('.testimonial-card:not(.clone)'));
+  const n = originalCards.length;
+
+  [0, 1].forEach(() => {
+    originalCards.forEach(card => {
+      const cl = card.cloneNode(true);
+      cl.classList.add('clone');
+      cl.setAttribute('aria-hidden', 'true');
+      track.appendChild(cl);
+    });
   });
-}
 
-let currentSlide  = 0;
-let autoPlayTimer = null;
-const cards       = track.querySelectorAll('.testimonial-card');
-const CARD_COUNT  = cards.length;
+  // Start at index n = first of clone-A (looks like card 1, allows seamless backward to real set)
+  let currentIndex     = n;
+  let isPaused         = false;
+  let readingModeActive = false;
+  let autoScrollTimer  = null;
+  let snapTimer        = null;  // cancellable snap
+  let activeCard       = null;
+  let activeClone      = null;
 
-// Determine how many cards are visible at once based on viewport
-function visibleCount() {
-  if (window.innerWidth >= 1024) return 3;
-  if (window.innerWidth >= 640)  return 2;
-  return 1;
-}
-
-function cardWidth() {
-  if (!cards[0]) return 0;
-  const rect = cards[0].getBoundingClientRect();
-  const gap  = 28;
-  return rect.width + gap;
-}
-
-function maxSlide() {
-  return Math.max(0, CARD_COUNT - visibleCount());
-}
-
-// Build dots
-function buildDots() {
-  dotsWrap.innerHTML = '';
-  const total = maxSlide() + 1;
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement('button');
-    dot.className = 'carousel-dot' + (i === currentSlide ? ' active' : '');
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', `Testimonial ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(dot);
+  /* ── Get card step width (card + gap) ──
+     Uses offsetWidth of the first real card. Falls back to a
+     viewport-based estimate if the browser hasn't laid out yet (w=0). ── */
+  function getCardWidth() {
+    if (!originalCards[0]) return 0;
+    const gap = parseFloat(window.getComputedStyle(track).columnGap) || 24;
+    const w   = originalCards[0].offsetWidth;
+    if (w > 0) return w + gap;
+    // Fallback: estimate from viewport until CSS calc() resolves
+    const vw = window.innerWidth;
+    const containerPad = vw <= 480 ? 32 : vw <= 768 ? 48 : vw <= 1024 ? 96 : 160;
+    return Math.max(200, vw - containerPad) + gap;
   }
-}
 
-function updateDots() {
-  const dots = dotsWrap.querySelectorAll('.carousel-dot');
-  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-}
+  /* ── Cancel any pending snap timer ── */
+  function cancelSnap() {
+    if (snapTimer !== null) { clearTimeout(snapTimer); snapTimer = null; }
+  }
 
-function goTo(idx) {
-  currentSlide = Math.max(0, Math.min(idx, maxSlide()));
-  track.style.transform = `translateX(-${currentSlide * cardWidth()}px)`;
-  updateDots();
-}
+  /* ── Schedule a silent snap (no visible transition) ── */
+  function scheduleSnap(targetIndex, delay) {
+    cancelSnap();
+    snapTimer = setTimeout(() => {
+      snapTimer = null;
+      track.style.transition = 'none';
+      currentIndex = targetIndex;
+      track.style.transform  = `translateX(-${currentIndex * getCardWidth()}px)`;
+    }, delay);
+  }
 
-function next() { goTo(currentSlide >= maxSlide() ? 0 : currentSlide + 1); }
-function prev() { goTo(currentSlide <= 0 ? maxSlide() : currentSlide - 1); }
+  /* ── Dots ── */
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    originalCards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', `Testimonial ${i + 1}`);
+      dot.addEventListener('click', () => {
+        cancelSnap();
+        resetAutoScroll();
+        currentIndex = n + i;  // always land in clone-A range
+        track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+        track.style.transform  = `translateX(-${currentIndex * getCardWidth()}px)`;
+        updateDots();
+      });
+      dotsWrap.appendChild(dot);
+    });
+  }
 
-prevBtn.addEventListener('click', () => { resetAutoPlay(); prev(); });
-nextBtn.addEventListener('click', () => { resetAutoPlay(); next(); });
+  function updateDots() {
+    // Works for any currentIndex including negatives or > 3n
+    const realIdx = ((currentIndex % n) + n) % n;
+    dotsWrap.querySelectorAll('.carousel-dot').forEach((d, i) =>
+      d.classList.toggle('active', i === realIdx));
+  }
 
-function startAutoPlay() {
-  autoPlayTimer = setInterval(next, 4000);
-}
-function resetAutoPlay() {
-  clearInterval(autoPlayTimer);
-  startAutoPlay();
-}
+  /* ── Auto-scroll ── */
+  function advanceCarousel() {
+    if (isPaused || readingModeActive) return;
+    cancelSnap();         // cancel any pending snap before advancing
+    currentIndex++;
+    const cw = getCardWidth();
+    track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform  = `translateX(-${currentIndex * cw}px)`;
+    updateDots();
 
-// Swipe / touch support
-let touchStartX = 0;
-track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-track.addEventListener('touchend', e => {
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) { resetAutoPlay(); diff > 0 ? next() : prev(); }
+    // Entered clone-B → snap back to matching position in clone-A after transition
+    if (currentIndex >= 2 * n) {
+      scheduleSnap(n, 650);
+    }
+  }
+
+  function startAutoScroll()  { stopAutoScroll(); autoScrollTimer = setInterval(advanceCarousel, 5000); }
+  function stopAutoScroll()   { clearInterval(autoScrollTimer); autoScrollTimer = null; }
+  function resetAutoScroll()  { cancelSnap(); stopAutoScroll(); startAutoScroll(); }
+
+  /* ── Prev / Next buttons ── */
+  prevBtn.addEventListener('click', () => {
+    cancelSnap();
+    resetAutoScroll();
+    currentIndex--;
+
+    if (currentIndex < 0) {
+      // Visually still on card 1 (real[0]).
+      // 1. Instantly jump to clone-B[0] (same card, 2n index) — invisible.
+      // 2. Then animate LEFT to clone-A[n-1] (2n-1 index) = last card. Correct backward motion.
+      const cw = getCardWidth();
+      track.style.transition = 'none';
+      track.style.transform  = `translateX(-${2 * n * cw}px)`;
+      void track.offsetHeight;          // force reflow so next transition fires separately
+      currentIndex = 2 * n - 1;        // clone-A[n-1] = last card
+    }
+
+    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform  = `translateX(-${currentIndex * getCardWidth()}px)`;
+    updateDots();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    cancelSnap();
+    resetAutoScroll();
+    advanceCarousel();
+  });
+
+  /* ── Hover / Touch pause ── */
+  if (wrap) {
+    wrap.addEventListener('mouseenter', () => { isPaused = true; });
+    wrap.addEventListener('mouseleave', () => { isPaused = false; });
+    wrap.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+    wrap.addEventListener('touchend',   () => {
+      isPaused = false;
+      if (!readingModeActive) startAutoScroll();
+    });
+  }
+
+  /* ── Reading Mode (click card to expand) ── */
+  function exitReadingMode() {
+    if (!activeCard || !activeClone) return;
+    const rect = activeCard.getBoundingClientRect();
+    activeClone.style.top       = `${rect.top}px`;
+    activeClone.style.left      = `${rect.left}px`;
+    activeClone.style.transform = 'translate(0,0) scale(1)';
+    activeClone.style.maxHeight = `${rect.height}px`;
+    if (overlay) overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (activeClone && activeClone.parentNode) activeClone.parentNode.removeChild(activeClone);
+      if (activeCard) activeCard.style.opacity = '1';
+      activeClone = activeCard = null;
+      readingModeActive = false;
+      startAutoScroll();
+    }, 400);
+  }
+
+  Array.from(track.querySelectorAll('.testimonial-card')).forEach(card => {
+    card.addEventListener('click', () => {
+      if (readingModeActive) { exitReadingMode(); return; }
+      readingModeActive = true;
+      activeCard = card;
+      stopAutoScroll();
+      const rect  = card.getBoundingClientRect();
+      activeClone = card.cloneNode(true);
+      Object.assign(activeClone.style, {
+        position: 'fixed', top: `${rect.top}px`, left: `${rect.left}px`,
+        width: `${rect.width}px`, height: 'auto', maxHeight: `${rect.height}px`,
+        margin: '0', zIndex: '10001',
+        transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
+        background: '#ffffff', boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+        overflowY: 'hidden', borderRadius: '24px'
+      });
+      document.body.appendChild(activeClone);
+      card.style.opacity = '0';
+      if (overlay) overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      activeClone.offsetHeight; // reflow
+      Object.assign(activeClone.style, {
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%) scale(1.05)',
+        maxHeight: '85vh'
+      });
+      setTimeout(() => { if (activeClone) activeClone.style.overflowY = 'auto'; }, 400);
+      activeClone.addEventListener('click', exitReadingMode);
+    });
+  });
+
+  if (overlay) overlay.addEventListener('click', exitReadingMode);
+
+  /* ── Swipe / Drag (touch) ── */
+  let startX = 0, currentX = 0, isDragging = false;
+
+  track.addEventListener('touchstart', e => {
+    if (readingModeActive) return;
+    startX    = e.touches[0].clientX;
+    currentX  = startX;
+    isDragging = true;
+    cancelSnap();                       // prevent snap from firing mid-drag
+    stopAutoScroll();
+    track.style.transition = 'none';
+  }, { passive: true });
+
+  track.addEventListener('touchmove', e => {
+    if (!isDragging || readingModeActive) return;
+    currentX = e.touches[0].clientX;
+    const dragOffset = currentX - startX;
+    track.style.transform = `translateX(${-(currentIndex * getCardWidth()) + dragOffset}px)`;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    if (!isDragging || readingModeActive) return;
+    isDragging = false;
+    const diff = currentX - startX;
+    const cw   = getCardWidth();
+
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) {
+        // Swipe left = next
+        currentIndex++;
+        if (currentIndex >= 2 * n) {
+          // Briefly in clone-B — snap back after short transition
+          scheduleSnap(n, 450);
+        }
+      } else {
+        // Swipe right = prev
+        currentIndex--;
+        if (currentIndex < 0) {
+          // Jump to clone-B[0] (same card) then show clone-A[n-1] (last card)
+          track.style.transition = 'none';
+          track.style.transform  = `translateX(-${2 * n * cw}px)`;
+          void track.offsetHeight;
+          currentIndex = 2 * n - 1;
+        }
+      }
+    }
+
+    track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform  = `translateX(-${currentIndex * cw}px)`;
+    updateDots();
+    startAutoScroll();
+  });
+
+  /* ── Resize: debounce + requestAnimationFrame to recalculate position ── */
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    cancelSnap();
+    stopAutoScroll();
+    if (readingModeActive) exitReadingMode();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      requestAnimationFrame(() => {
+        track.style.transition = 'none';
+        track.style.transform  = `translateX(-${currentIndex * getCardWidth()}px)`;
+        startAutoScroll();
+      });
+    }, 150);
+  }, { passive: true });
+
+  /* ── Init: wrapped in requestAnimationFrame so CSS calc() is fully
+     resolved and offsetWidth returns the correct value. ── */
+  requestAnimationFrame(() => {
+    track.style.transition = 'none';
+    track.style.transform  = `translateX(-${currentIndex * getCardWidth()}px)`;
+    buildDots();
+    updateDots();
+    setTimeout(startAutoScroll, 500);
+  });
 });
 
-buildDots();
-// startAutoPlay(); // Disabled - using CSS auto-scroll animation
-window.addEventListener('resize', () => { buildDots(); goTo(0); });
-// Re-init after fonts/images settle
-window.addEventListener('load', () => { buildDots(); goTo(0); });
 
 /* ---- Scroll to Top Button ---- */
 const scrollTopBtn = document.getElementById('scrollTop');
-
-window.addEventListener('scroll', () => {
-  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
-});
-
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+if (scrollTopBtn) {
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
 /* ---- Subtle nav highlight on scroll ---- */
 const sections = document.querySelectorAll('section[id]');
@@ -329,224 +520,4 @@ if (closeMenuBtn && drawer) {
     hamburger.classList.remove('open');
   });
 }
-/* ---- Interactive Testimonials Carousel & Reading Mode ---- */
-document.addEventListener("DOMContentLoaded", () => {
-  const track = document.getElementById("testimonialsTrack");
-  const wrap = document.querySelector(".testimonials-track-wrap");
-  const overlay = document.getElementById("readingOverlay");
-  if (!track || !wrap) return;
 
-  const originalCards = Array.from(track.children);
-  let currentIndex = 0;
-  let isPaused = false;
-  let readingModeActive = false;
-  let autoScrollTimer;
-  let activeCard = null;
-  let activeClone = null;
-
-  function getCardWidth() {
-    if (!originalCards[0]) return 0;
-    const style = window.getComputedStyle(track);
-    const gap = parseFloat(style.getPropertyValue('column-gap') || style.getPropertyValue('gap')) || 0;
-    return originalCards[0].offsetWidth + gap;
-  }
-
-  // 1. Clone cards for infinite scroll
-  originalCards.forEach(card => {
-    let clone = card.cloneNode(true);
-    clone.classList.add('clone');
-    track.appendChild(clone);
-  });
-  originalCards.forEach(card => {
-    let clone = card.cloneNode(true);
-    clone.classList.add('clone');
-    track.appendChild(clone);
-  });
-
-  const allCards = Array.from(track.children);
-  const totalCards = allCards.length;
-
-  // 2. Auto-scroll logic
-  function advanceCarousel() {
-    if (isPaused || readingModeActive) return;
-    
-    currentIndex++;
-    const step = getCardWidth();
-    track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-    track.style.transform = `translateX(-${currentIndex * step}px)`;
-
-    // If we've reached the second set of clones, silently snap back to the start
-    if (currentIndex >= originalCards.length * 2) {
-      setTimeout(() => {
-        if (readingModeActive) return; // safety
-        track.style.transition = 'none';
-        currentIndex = originalCards.length;
-        track.style.transform = `translateX(-${currentIndex * step}px)`;
-      }, 600);
-    }
-  }
-
-  function startAutoScroll() {
-    stopAutoScroll();
-    autoScrollTimer = setInterval(advanceCarousel, 6000); 
-  }
-
-  function stopAutoScroll() {
-    clearInterval(autoScrollTimer);
-  }
-
-  // 3. Hover and Touch pause
-  wrap.addEventListener('mouseenter', () => { isPaused = true; });
-  wrap.addEventListener('mouseleave', () => { isPaused = false; });
-  wrap.addEventListener('touchstart', () => { isPaused = true; }, {passive: true});
-  wrap.addEventListener('touchend', () => { 
-    isPaused = false; 
-    if (!readingModeActive) startAutoScroll(); 
-  });
-
-  // 4. Reading Mode Interaction with Clone (Escapes overflow:hidden)
-  function exitReadingMode() {
-    if (!activeCard || !activeClone) return;
-    
-    // Animate clone back to original position
-    const rect = activeCard.getBoundingClientRect();
-    activeClone.style.top = `${rect.top}px`;
-    activeClone.style.left = `${rect.left}px`;
-    activeClone.style.transform = 'translate(0, 0) scale(1)';
-    activeClone.style.maxHeight = `${rect.height}px`; // animate back
-    
-    overlay.classList.remove('active');
-    document.body.style.overflow = ''; // Unlock page scroll
-    
-    // After transition, clean up
-    setTimeout(() => {
-      if (activeClone && activeClone.parentNode) {
-        activeClone.parentNode.removeChild(activeClone);
-      }
-      if (activeCard) {
-        activeCard.style.opacity = '1';
-      }
-      activeClone = null;
-      activeCard = null;
-      readingModeActive = false;
-      startAutoScroll();
-    }, 400); // match transition duration
-  }
-
-  allCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (readingModeActive) {
-        exitReadingMode();
-        return;
-      }
-
-      readingModeActive = true;
-      activeCard = card;
-      stopAutoScroll();
-
-      const rect = card.getBoundingClientRect();
-      
-      // Create a floating clone
-      activeClone = card.cloneNode(true);
-      activeClone.classList.add('reading-active');
-      activeClone.style.position = 'fixed';
-      activeClone.style.top = `${rect.top}px`;
-      activeClone.style.left = `${rect.left}px`;
-      activeClone.style.width = `${rect.width}px`;
-      activeClone.style.height = 'auto'; // allow it to grow if needed
-      activeClone.style.maxHeight = `${rect.height}px`; // start at original height
-      activeClone.style.margin = '0';
-      activeClone.style.zIndex = '10001';
-      activeClone.style.transition = 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-      activeClone.style.background = '#ffffff';
-      activeClone.style.backdropFilter = 'none';
-      activeClone.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
-      activeClone.style.overflowY = 'hidden'; // hide scrollbar during transition
-      
-      document.body.appendChild(activeClone);
-      
-      // Hide original
-      card.style.opacity = '0';
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Lock page scroll
-      
-      // Force reflow
-      activeClone.offsetHeight;
-      
-      // Animate to center of viewport
-      activeClone.style.top = '50%';
-      activeClone.style.left = '50%';
-      activeClone.style.transform = 'translate(-50%, -50%) scale(1.05)';
-      activeClone.style.maxHeight = '85vh'; // expand to fit text, but limit to screen
-      
-      // Show scrollbar safely after transition ends
-      setTimeout(() => {
-        if (activeClone) activeClone.style.overflowY = 'auto';
-      }, 400);
-      
-      // Clicking the clone also closes it
-      activeClone.addEventListener('click', exitReadingMode);
-    });
-  });
-
-  if (overlay) {
-    overlay.addEventListener('click', exitReadingMode);
-  }
-
-  // 5. Handle Swipe/Drag for mobile users
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
-
-  track.addEventListener('touchstart', (e) => {
-    if (readingModeActive) return;
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    track.style.transition = 'none';
-  }, {passive: true});
-
-  track.addEventListener('touchmove', (e) => {
-    if (!isDragging || readingModeActive) return;
-    currentX = e.touches[0].clientX;
-    const diffX = currentX - startX;
-    const step = getCardWidth();
-    const baseTranslate = -(currentIndex * step);
-    track.style.transform = `translateX(${baseTranslate + diffX}px)`;
-  }, {passive: true});
-
-  track.addEventListener('touchend', (e) => {
-    if (!isDragging || readingModeActive) return;
-    isDragging = false;
-    const diffX = currentX - startX;
-    const step = getCardWidth();
-    
-    if (Math.abs(diffX) > 50) {
-      if (diffX < 0) {
-        currentIndex++; 
-      } else {
-        currentIndex--; 
-      }
-    }
-    
-    if (currentIndex < 0) currentIndex = totalCards - 1;
-    
-    track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-    track.style.transform = `translateX(-${currentIndex * step}px)`;
-  });
-
-  // Re-adjust on window resize to prevent drifting
-  window.addEventListener('resize', () => {
-    if (readingModeActive) exitReadingMode(); // safely exit on resize to avoid broken clone math
-    const step = getCardWidth();
-    track.style.transition = 'none';
-    track.style.transform = `translateX(-${currentIndex * step}px)`;
-  }, {passive: true});
-
-  // Start the engine
-  const initialStep = getCardWidth();
-  currentIndex = originalCards.length;
-  track.style.transition = 'none';
-  track.style.transform = `translateX(-${currentIndex * initialStep}px)`;
-  
-  setTimeout(startAutoScroll, 100);
-});
